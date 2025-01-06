@@ -24,7 +24,7 @@ export default function Home() {
       .then((data) => {
         console.log(data);
         data.splice(0, 3);
-        data = data.map((item: any) => ({
+        data = data.map((item: string) => ({
           firstName: item[1],
           lastName: item[0],
           bandColor: item[2],
