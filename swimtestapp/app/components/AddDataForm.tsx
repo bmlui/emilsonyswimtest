@@ -71,9 +71,9 @@ export default function AddDataForm({ onAdd, data }: { onAdd: (data: SwimTestDat
           }`}
         >
           <option value="" disabled>Select Band Color</option>
-          <option value="Green">Green</option>
-          <option value="Yellow">Yellow</option>
-          <option value="Red">Red</option>
+            <option value="Green">🟢 Green</option>
+            <option value="Yellow">🟡 Yellow</option>
+            <option value="Red">🔴 Red</option>
         </select>
         <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
           <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">

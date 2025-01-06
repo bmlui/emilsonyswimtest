@@ -61,7 +61,7 @@ export default function Home() {
 
   return (
     <div className="p-4 space-y-4">
-      <h1 className="text-2xl font-bold">Swim Test App</h1>
+      <h1 className="text-2xl font-bold">Emilon Y Swim Test Log</h1>
       <div className=" max-w-xs mx-auto p-4 bg-gray-100 rounded-lg">
         <h2 className="text-lg font-bold">Add Swim Test Data</h2>
         <AddDataForm onAdd={addDataLocal} data={data}/>

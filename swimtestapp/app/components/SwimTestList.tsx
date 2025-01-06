@@ -56,31 +56,31 @@ export default function SwimTestList({ data }: { data: SwimTestData[] }) {
         <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50 sticky top-0">
                 <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer" onClick={() => requestSort('firstName')}>
+                    <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer" onClick={() => requestSort('firstName')}>
                         First Name {getSortIndicator('firstName')}
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer" onClick={() => requestSort('lastName')}>
+                    <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer" onClick={() => requestSort('lastName')}>
                         Last Name {getSortIndicator('lastName')}
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer" onClick={() => requestSort('bandColor')}>
+                    <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer" onClick={() => requestSort('bandColor')}>
                         Color {getSortIndicator('bandColor')}
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer" onClick={() => requestSort('tester')}>
+                    <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer" onClick={() => requestSort('tester')}>
                         Tester {getSortIndicator('tester')}
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer" onClick={() => requestSort('testDate')}>
+                    <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer" onClick={() => requestSort('testDate')}>
                         Test Date {getSortIndicator('testDate')}
                     </th>
                 </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody className="bg-white divide-y divide-gray-200 text-s">
                 {sortedData.map((item, index) => (
                     <tr key={index}>
-                        <td className="px-6 py-1 whitespace-nowrap">{item.firstName}</td>
-                        <td className="px-6 py-1 whitespace-nowrap">{item.lastName}</td>
-                        <td className={`px-6 py-1 whitespace-nowrap ${getColorClass(item.bandColor)}`}>{item.bandColor}</td>
-                        <td className="px-6 py-1 whitespace-nowrap">{item.tester}</td>
-                        <td className="px-6 py-1 whitespace-nowrap">{item.testDate}</td>
+                        <td className="px-3 py-1 ">{item.firstName}</td>
+                        <td className="px-3 py-1 ">{item.lastName}</td>
+                        <td className={`px-3 py-1 whitespace-nowrap ${getColorClass(item.bandColor)}`}>{item.bandColor}</td>
+                        <td className="px-3 py-1 ">{item.tester}</td>
+                        <td className="px-3 py-1 whitespace-nowrap">{item.testDate}</td>
                     </tr>
                 ))}
             </tbody>
