@@ -89,7 +89,7 @@ export default function AddDataForm({ onAdd, data }: { onAdd: (data: SwimTestDat
         required
         className="w-full p-2 border border-gray-300 rounded"
       />
-      <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded">
+      <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded hover:opacity-80">
         Add Swimmer
       </button>
     </form>

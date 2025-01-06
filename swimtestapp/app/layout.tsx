@@ -22,18 +22,22 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  
+
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <div className="relative">
+        
+          {children}
+        </div>
         <footer className="text-center text-gray-500 mb-5">
           Created by Brandon Lui and Jackson O&apos;Brien. Data is synced with the Google Sheet on the supervisor account.<br/>
           For support, please email <a href="mailto:contact@brandonlui.com" className="text-blue-500 underline">contact@brandonlui.com</a>.
         </footer>
       </body>
-
     </html>
   );
 }

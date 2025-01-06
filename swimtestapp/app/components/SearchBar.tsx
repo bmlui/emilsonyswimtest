@@ -34,7 +34,7 @@ export default function SearchBar({ onSearch }: { onSearch: (query: string) => v
       />
       <button
         onClick={isSearched ? handleClear : handleSearch}
-        className={`px-4 py-2 rounded ${isSearched ? 'bg-gray-500' : 'bg-blue-500'} text-white`}
+        className={`px-4 py-2 rounded hover:opacity-80 ${isSearched ? 'bg-gray-500' : 'bg-blue-500'} text-white`}
       >
         {isSearched ? 'Clear' : 'Search'}
       </button>
