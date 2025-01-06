@@ -54,7 +54,7 @@ export default function SwimTestList({ data }: { data: SwimTestData[] }) {
 
     return (
         <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50 sticky top-0">
+            <thead className="bg-white sticky top-0 font-bold">
                 <tr>
                     <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer" onClick={() => requestSort('firstName')}>
                         First Name {getSortIndicator('firstName')}
@@ -75,7 +75,7 @@ export default function SwimTestList({ data }: { data: SwimTestData[] }) {
             </thead>
             <tbody className="bg-white divide-y divide-gray-200 text-s">
                 {sortedData.map((item, index) => (
-                    <tr key={index}>
+                    <tr key={index} className={index % 2 === 0 ? 'bg-gray-50' : ''}>
                         <td className="px-3 py-1 ">{item.firstName}</td>
                         <td className="px-3 py-1 ">{item.lastName}</td>
                         <td className={`px-3 py-1 whitespace-nowrap ${getColorClass(item.bandColor)}`}>{item.bandColor}</td>
