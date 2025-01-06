@@ -71,7 +71,7 @@ export default function Home() {
         </button>
       </div>
       <div className=" max-w-xs mx-auto p-4 bg-gray-100 rounded-lg">
-        <h2 className="text-lg font-bold">Add Swim Test Data</h2>
+        <h2 className="text-xl font-bold mb-3">Add Swim Test Data</h2>
         <AddDataForm onAdd={addDataLocal} data={data}/>
       </div>
       <div className="p-4 space-y-4 rounded-lg bg-gray-100 max-w-4xl mx-auto">

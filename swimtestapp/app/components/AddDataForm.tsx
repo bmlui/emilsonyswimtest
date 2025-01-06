@@ -43,24 +43,34 @@ export default function AddDataForm({ onAdd, data }: { onAdd: (data: SwimTestDat
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <input
-        type="text"
-        value={firstName}
-        onChange={(e) => setFirstName(e.target.value)}
-        placeholder="First Name"
-        required
-        className="w-full p-2 border border-gray-300 rounded"
-      />
-      <input
-        type="text"
-        value={lastName}
-        onChange={(e) => setLastName(e.target.value)}
-        placeholder="Last Name"
-        required
-        className="w-full p-2 border border-gray-300 rounded"
-      />
+      <div>
+        <label htmlFor="firstName" className="block font-bold">First Name</label>
+        <input
+          id="firstName"
+          type="text"
+          value={firstName}
+          onChange={(e) => setFirstName(e.target.value)}
+          placeholder="Safety"
+          required
+          className="w-full p-2 border border-gray-300 rounded"
+        />
+      </div>
+      <div>
+        <label htmlFor="lastName" className="block font-bold">Last Name</label>
+        <input
+          id="lastName"
+          type="text"
+          value={lastName}
+          onChange={(e) => setLastName(e.target.value)}
+          placeholder="Sam"
+          required
+          className="w-full p-2 border border-gray-300 rounded"
+        />
+      </div>
       <div className="relative">
+        <label htmlFor="bandColor" className="block font-bold">Band Color</label>
         <select
+          id="bandColor"
           value={bandColor}
           onChange={(e) => setBandColor(e.target.value)}
           required
@@ -71,9 +81,9 @@ export default function AddDataForm({ onAdd, data }: { onAdd: (data: SwimTestDat
           }`}
         >
           <option value="" disabled>Select Band Color</option>
-            <option value="Green">🟢 Green</option>
-            <option value="Yellow">🟡 Yellow</option>
-            <option value="Red">🔴 Red</option>
+          <option value="Green">🟢 Green</option>
+          <option value="Yellow">🟡 Yellow</option>
+          <option value="Red">🔴 Red</option>
         </select>
         <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
           <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -81,14 +91,18 @@ export default function AddDataForm({ onAdd, data }: { onAdd: (data: SwimTestDat
           </svg>
         </div>
       </div>
-      <input
-        type="text"
-        value={tester}
-        onChange={(e) => setTester(e.target.value)}
-        placeholder="Lifeguard Tester"
-        required
-        className="w-full p-2 border border-gray-300 rounded"
-      />
+      <div>
+        <label htmlFor="tester" className="block font-bold">Lifeguard Tester</label>
+        <input
+          id="tester"
+          type="text"
+          value={tester}
+          onChange={(e) => setTester(e.target.value)}
+          placeholder="Mr. Longfellow"
+          required
+          className="w-full p-2 border border-gray-300 rounded"
+        />
+      </div>
       <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded hover:opacity-80">
         Add Swimmer
       </button>

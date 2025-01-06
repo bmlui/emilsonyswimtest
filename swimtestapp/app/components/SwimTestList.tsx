@@ -56,19 +56,19 @@ export default function SwimTestList({ data }: { data: SwimTestData[] }) {
         <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-white sticky top-0 font-bold">
                 <tr>
-                    <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer" onClick={() => requestSort('firstName')}>
+                    <th className="px-3 py-3 text-left text-xs  text-gray-500 uppercase tracking-wider cursor-pointer" onClick={() => requestSort('firstName')}>
                         First Name {getSortIndicator('firstName')}
                     </th>
-                    <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer" onClick={() => requestSort('lastName')}>
+                    <th className="px-3 py-3 text-left text-xs  text-gray-500 uppercase tracking-wider cursor-pointer" onClick={() => requestSort('lastName')}>
                         Last Name {getSortIndicator('lastName')}
                     </th>
-                    <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer" onClick={() => requestSort('bandColor')}>
+                    <th className="px-3 py-3 text-left text-xs  text-gray-500 uppercase tracking-wider cursor-pointer" onClick={() => requestSort('bandColor')}>
                         Color {getSortIndicator('bandColor')}
                     </th>
-                    <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer" onClick={() => requestSort('tester')}>
+                    <th className="px-3 py-3 text-left text-xs  text-gray-500 uppercase tracking-wider cursor-pointer" onClick={() => requestSort('tester')}>
                         Tester {getSortIndicator('tester')}
                     </th>
-                    <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer" onClick={() => requestSort('testDate')}>
+                    <th className="px-3 py-3 text-left text-xs  text-gray-500 uppercase tracking-wider cursor-pointer" onClick={() => requestSort('testDate')}>
                         Test Date {getSortIndicator('testDate')}
                     </th>
                 </tr>
