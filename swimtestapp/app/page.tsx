@@ -13,10 +13,9 @@ export interface SwimTestData {
 }
 
 export default function Home() {
-
-
   const [data, setData] = useState<SwimTestData[]>([]);
   const [filteredData, setFilteredData] = useState<SwimTestData[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     fetch('/api/swimtest')
@@ -32,14 +31,15 @@ export default function Home() {
           testDate: item[4],
         }));
       
-        //add a full name column for searching purposes, removing all other characters then alphabet and making it lowercase
+        // Add a full name column for searching purposes, removing all other characters then alphabet and making it uppercase
         data.forEach((item: SwimTestData) => {
           item.fullName = item.firstName + ' ' + item.lastName;
           item.fullName = item.fullName.replace(/[^a-zA-Z]/g, '').toUpperCase();
         });
-        //val
+        
         setData(data);
         setFilteredData(data);
+        setIsLoading(false); // Set loading to false after data is fetched
       });
   }, []);
 
@@ -55,10 +55,8 @@ export default function Home() {
   };
 
   const addDataLocal = async (swimTestData: SwimTestData) => {
-    
-      setData([...data, swimTestData]);
-      setFilteredData([...filteredData, swimTestData]);
-
+    setData([...data, swimTestData]);
+    setFilteredData([...filteredData, swimTestData]);
   }
 
   return (
@@ -70,7 +68,13 @@ export default function Home() {
       </div>
       <div className="p-4 space-y-4 rounded-lg bg-gray-100 max-w-4xl mx-auto">
         <SearchBar onSearch={handleSearch} />
-        <SwimTestList data={filteredData} />
+        {isLoading ? (
+          <div className="flex justify-center items-center">
+            <div className="animate-spin rounded-full h-8 w-8 border-4 border-gray-300 border-t-transparent"></div>
+          </div>
+        ) : (
+          <SwimTestList data={filteredData} />
+        )}
       </div>
     </div>
   );
