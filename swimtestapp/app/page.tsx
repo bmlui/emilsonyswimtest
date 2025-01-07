@@ -23,12 +23,16 @@ export default function Home() {
       .then((data) => {
         console.log(data);
         data.splice(0, 3);
+
+        //remove empty rows
+        data = data.filter((item: string[]) => item.length > 0);
+        
         data = data.map((item: string) => ({
-          firstName: item[1],
-          lastName: item[0],
-          bandColor: item[2],
-          tester: item[3],
-          testDate: item[4],
+          firstName: item[1] || '',
+          lastName: item[0] || '',
+          bandColor: item[2] || '',
+          tester: item[3] || '',
+          testDate: item[4] || '',
         }));
       
         // Add a full name column for searching purposes, removing all other characters then alphabet and making it uppercase

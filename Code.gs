@@ -1,5 +1,3 @@
-// Google App Script for Manual Entry in Google Sheet
-
 function sortSheet1() {
   var sheetData =
     SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Sheet1");
@@ -8,7 +6,7 @@ function sortSheet1() {
   var startColumn = 1; // Data starts from column A
   var numColumns = 5; // Total number of columns
 
-  // Check where there's existing data in the table
+  // Check if there's existing data in the table
   var lastRow = sheetData.getLastRow();
   var existingDataRows = lastRow >= startRow ? lastRow - startRow + 1 : 0;
 
@@ -61,21 +59,31 @@ function addAndSortSheet1() {
     );
     return;
   }
-  switch (color) {
-    case "green":
-      inputs[2] = "g";
-    case "yellow":
-      inputs[2] = "y";
-    case "red":
-      inputs[2] = "r";
-  }
 
-  SpreadsheetApp.getUi().alert(
+  const response = SpreadsheetApp.getUi().alert(
     `I, ${inputs[3]}, certify that "${inputs[0]} ${
       inputs[1]
     }" has met the requirements for a ${inputs[2].toUpperCase()} band.`,
     SpreadsheetApp.getUi().ButtonSet.YES_NO
   );
+
+  // Handle the user's response
+  if (response == SpreadsheetApp.getUi().Button.NO) {
+    // If the user clicks "No"
+    return;
+  }
+
+  switch (color) {
+    case "green":
+      inputs[2] = "g";
+      break;
+    case "yellow":
+      inputs[2] = "y";
+      break;
+    case "red":
+      inputs[2] = "r";
+      break;
+  }
 
   // Define where the data starts (adjust to match your data start row)
   var startRow = 4; // Data starts from row 7
