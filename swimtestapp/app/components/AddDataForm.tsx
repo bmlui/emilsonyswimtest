@@ -50,7 +50,7 @@ export default function AddDataForm({ onAdd, data }: { onAdd: (data: SwimTestDat
           type="text"
           value={firstName}
           onChange={(e) => setFirstName(e.target.value)}
-          placeholder="Safety"
+          placeholder="Sam"
           required
           className="w-full p-2 border border-gray-300 rounded"
         />
@@ -62,7 +62,7 @@ export default function AddDataForm({ onAdd, data }: { onAdd: (data: SwimTestDat
           type="text"
           value={lastName}
           onChange={(e) => setLastName(e.target.value)}
-          placeholder="Sam"
+          placeholder="Safetly"
           required
           className="w-full p-2 border border-gray-300 rounded"
         />
@@ -75,9 +75,9 @@ export default function AddDataForm({ onAdd, data }: { onAdd: (data: SwimTestDat
           onChange={(e) => setBandColor(e.target.value)}
           required
           className={`w-full p-2 border border-gray-300 rounded appearance-none bg-white ${
-            bandColor === 'Green' ? 'bg-green-100 text-green-800' :
+            bandColor === 'Green' ? 'bg-green-200 text-green-800' :
             bandColor === 'Yellow' ? 'bg-yellow-100 text-yellow-800' :
-            bandColor === 'Red' ? 'bg-red-100 text-red-800' : ''
+            bandColor === 'Red' ? 'bg-red-200 text-red-800' : ''
           }`}
         >
           <option value="" disabled>Select Band Color</option>
@@ -98,7 +98,7 @@ export default function AddDataForm({ onAdd, data }: { onAdd: (data: SwimTestDat
           type="text"
           value={tester}
           onChange={(e) => setTester(e.target.value)}
-          placeholder="Mr. Longfellow"
+          placeholder="Commodore Longfellow"
           required
           className="w-full p-2 border border-gray-300 rounded"
         />

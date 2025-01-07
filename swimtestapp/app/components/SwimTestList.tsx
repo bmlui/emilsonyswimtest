@@ -74,15 +74,21 @@ export default function SwimTestList({ data }: { data: SwimTestData[] }) {
                 </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200 text-s">
-                {sortedData.map((item, index) => (
-                    <tr key={index} className={index % 2 === 0 ? 'bg-gray-50' : ''}>
-                        <td className="px-3 py-1 ">{item.firstName}</td>
-                        <td className="px-3 py-1 ">{item.lastName}</td>
-                        <td className={`px-3 py-1 whitespace-nowrap ${getColorClass(item.bandColor)}`}>{item.bandColor}</td>
-                        <td className="px-3 py-1 ">{item.tester}</td>
-                        <td className="px-3 py-1 whitespace-nowrap">{item.testDate}</td>
+                {sortedData.length > 0 ? (
+                    sortedData.map((item, index) => (
+                        <tr key={index} className={index % 2 === 0 ? 'bg-gray-50' : ''}>
+                            <td className="px-3 py-1 ">{item.firstName}</td>
+                            <td className="px-3 py-1 ">{item.lastName}</td>
+                            <td className={`px-3 py-1 whitespace-nowrap ${getColorClass(item.bandColor)}`}>{item.bandColor}</td>
+                            <td className="px-3 py-1 ">{item.tester}</td>
+                            <td className="px-3 py-1 whitespace-nowrap">{item.testDate}</td>
+                        </tr>
+                    ))
+                ) : (
+                    <tr>
+                        <td colSpan={5} className="px-3 py-8 text-center">No results found</td>
                     </tr>
-                ))}
+                )}
             </tbody>
         </table>
     );

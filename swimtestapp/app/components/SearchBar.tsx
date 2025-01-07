@@ -29,7 +29,7 @@ export default function SearchBar({ onSearch }: { onSearch: (query: string) => v
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         onKeyPress={handleKeyPress}
-        placeholder="Search"
+        placeholder="Search..."
         className="flex-grow p-2 border border-gray-300 rounded"
       />
       <button

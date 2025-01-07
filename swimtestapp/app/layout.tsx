@@ -34,9 +34,11 @@ export default function RootLayout({
           {children}
         </div>
         <footer className="text-center text-gray-500 mb-5">
-          Created by Brandon Lui and Jackson O&apos;Brien. Data is synced with the Google Sheet on the supervisor account.<br/>
+        A Culture of Safety. A Commitment to Care. A Standard of Excellence.<br/>
+          Data is synced with the Google Sheet on the supervisor account.<br/>
           For support, please email <a href="mailto:contact@brandonlui.com" className="text-blue-500 underline">contact@brandonlui.com</a>.
         </footer>
+        <div className="min-h-screen"></div>
       </body>
     </html>
   );
