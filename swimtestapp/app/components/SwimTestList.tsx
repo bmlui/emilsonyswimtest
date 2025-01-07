@@ -1,20 +1,18 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { SwimTestData } from "../page";
 
 export default function SwimTestList({ data }: { data: SwimTestData[] }) {
     const [sortConfig, setSortConfig] = useState<{ key: keyof SwimTestData, direction: 'ascending' | 'descending' }>({ key: 'lastName', direction: 'ascending' });
 
-    useEffect(() => {
-        setSortConfig({ key: 'lastName', direction: 'ascending' });
-    }, []);
-
     const sortedData = [...data];
     if (sortConfig !== null) {
         sortedData.sort((a, b) => {
-            if (a[sortConfig.key] < b[sortConfig.key]) {
+            const aValue = a[sortConfig.key]?.toString().toLowerCase() || '';
+            const bValue = b[sortConfig.key]?.toString().toLowerCase() || '';
+            if (aValue < bValue) {
                 return sortConfig.direction === 'ascending' ? -1 : 1;
             }
-            if (a[sortConfig.key] > b[sortConfig.key]) {
+            if (aValue > bValue) {
                 return sortConfig.direction === 'ascending' ? 1 : -1;
             }
             return 0;

@@ -5,9 +5,13 @@ export default function SearchBar({ onSearch }: { onSearch: (query: string) => v
   const [isSearched, setIsSearched] = useState(false);
 
   const handleSearch = () => {
-    if (!query) return;
-    onSearch(query);
-    setIsSearched(true);
+    if (!query) {
+      handleClear();
+    } else {
+        onSearch(query);
+        setIsSearched(true);
+      }
+    
   };
 
   const handleClear = () => {
