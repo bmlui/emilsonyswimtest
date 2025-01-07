@@ -33,10 +33,13 @@ export default function SwimTestList({ data }: { data: SwimTestData[] }) {
         }
         switch (bandColor.toLowerCase()) {
             case 'green':
+            case 'g':
                 return 'bg-green-100 text-green-800';
             case 'yellow':
+            case 'y':
                 return 'bg-yellow-100 text-yellow-800';
             case 'red':
+            case 'r':
                 return 'bg-red-100 text-red-800';
             default:
                 return 'bg-gray-100 text-gray-800';
@@ -77,7 +80,10 @@ export default function SwimTestList({ data }: { data: SwimTestData[] }) {
                         <tr key={index} className={index % 2 === 0 ? 'bg-gray-50' : ''}>
                             <td className="px-3 py-1 ">{item.firstName}</td>
                             <td className="px-3 py-1 ">{item.lastName}</td>
-                            <td className={`px-3 py-1 whitespace-nowrap ${getColorClass(item.bandColor)}`}>{item.bandColor}</td>
+                            <td className={`px-3 py-1 whitespace-nowrap ${getColorClass(item.bandColor)}`}>
+                                {item.bandColor.toLowerCase() === 'g' ? 'Green' : item.bandColor.toLowerCase() === 'y' ? 'Yellow' 
+                                : item.bandColor.toLowerCase() === 'r' ? 'Red' :  item.bandColor }
+                                </td>
                             <td className="px-3 py-1 ">{item.tester}</td>
                             <td className="px-3 py-1 whitespace-nowrap">{item.testDate}</td>
                         </tr>
