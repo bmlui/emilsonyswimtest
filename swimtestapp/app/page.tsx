@@ -19,7 +19,13 @@ export default function Home() {
 
   useEffect(() => {
     fetch('/api/swimtest')
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          console.error(response);
+          throw new Error(`Server error: ${response.status} ${response.statusText}`);
+        }
+        return response.json();
+      })
       .then((data) => {
         console.log(data);
         data.splice(0, 3);
@@ -44,8 +50,13 @@ export default function Home() {
         setData(data);
         setFilteredData(data);
         setIsLoading(false); // Set loading to false after data is fetched
+      })
+      .catch((error) => {
+        alert(`Error fetching data: ${error.message}`);
+        console.error(error);
+        setIsLoading(false);
       });
-  }, []);
+}, []);
 
   const handleSearch = (query: string) => {
     const filtered = data.filter((item) =>

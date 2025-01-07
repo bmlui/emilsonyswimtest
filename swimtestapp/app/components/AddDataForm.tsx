@@ -23,7 +23,7 @@ export default function AddDataForm({ onAdd, data }: { onAdd: (data: SwimTestDat
       testDate,
       fullName,
     };
-
+try {
     const response = await fetch('/api/swimtest', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -36,8 +36,14 @@ export default function AddDataForm({ onAdd, data }: { onAdd: (data: SwimTestDat
       setFirstName('');
       setLastName('');
     } else {
-      alert('Server error. Failed to add swimmer');
+      console.error(response);
+      alert(`Server error. Failed to add swimmer: ${response.statusText}`);
     }
+
+  } catch (error) {
+    console.error(error);
+    alert(`Error adding swimmer: ${error}`);
+  }
 
   };
 
