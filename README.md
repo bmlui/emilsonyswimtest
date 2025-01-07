@@ -18,11 +18,11 @@ Previously, we used a Google Sheet to manage the swim test list. I wanted a stab
 ### Installation
 1. Clone the repo and install dependencies 
 ```
-git clone [https://github.com/yourusername/swim-test-app.git](https://github.com/bmlui/emilsonyswimtest)
+git clone https://github.com/bmlui/emilsonyswimtest
 cd swimtestapp
 npm install
 ```
-2. Then, setup the env based on the .env.example. A Google Cloud Service Account json secrect is needed. 
+2. Then, setup the env based on the .env.example. A Google Cloud Service Account json secrect is needed. You must also share the Google Sheet with edit permissions to the email listed on the json secrect/service account. 
 3. Lastly, run development server.
 
 ```
