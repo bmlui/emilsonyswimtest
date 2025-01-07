@@ -7,7 +7,7 @@ Previously, we used a Google Sheet to manage the swim test list. I wanted a stab
 - Backend: Next.js
 - Data: Google Sheets API
 - Hosting: Vercel
--Auth: Cloudflare Access
+- Auth: Cloudflare Access
 
 
 ## Getting Started
