@@ -11,10 +11,12 @@ export default function AddDataForm({ onAdd, data }: { onAdd: (data: SwimTestDat
     e.preventDefault();
     const testDate = new Date().toLocaleDateString('en-US');
     const fullName = `${firstName} ${lastName}`.replace(/[^a-zA-Z]/g, '').toUpperCase();
-    if (data.find((item) => item.fullName === fullName)) {
-      alert(`Swimmer ${firstName.toUpperCase()} ${lastName.toUpperCase()} already exists`);
-      return;
-    }
+    const existingSwimmer = data.find((item) => item.fullName === fullName);
+    if (existingSwimmer) {
+        alert(`ERROR! Swimmer ${firstName.toUpperCase()} ${lastName.toUpperCase()} already exists with band color ${existingSwimmer.bandColor.toUpperCase()}. Tested by ${existingSwimmer.tester.toUpperCase()} on Date ${existingSwimmer.testDate.toUpperCase()}.`);
+        return;
+      }
+      
     const swimTestData: SwimTestData = {
       firstName,
       lastName,
@@ -32,7 +34,7 @@ try {
 
     if (response.ok) {
       onAdd(swimTestData);
-      alert(`Swimmer ${firstName.toUpperCase()} ${lastName.toUpperCase()} added successfully`);
+      alert(`Success! Swimmer ${firstName.toUpperCase()} ${lastName.toUpperCase()} added as ${bandColor.toUpperCase()} band. Tested by ${tester.toUpperCase()} on Date ${testDate.toUpperCase()}.`);
       setFirstName('');
       setLastName('');
     } else {
@@ -80,10 +82,10 @@ try {
           value={bandColor}
           onChange={(e) => setBandColor(e.target.value)}
           required
-          className={`w-full p-2 border border-gray-300 rounded appearance-none bg-white ${
-            bandColor === 'Green' ? 'bg-green-200 text-green-800' :
-            bandColor === 'Yellow' ? 'bg-yellow-100 text-yellow-800' :
-            bandColor === 'Red' ? 'bg-red-200 text-red-800' : ''
+          className={`w-full p-2 border border-gray-300 rounded appearance-none ${
+            bandColor === 'g' ? 'bg-green-100 text-green-800' :
+            bandColor === 'y' ? 'bg-yellow-100 text-yellow-800' :
+            bandColor === 'r' ? 'bg-red-100 text-red-800' : ''
           }`}
         >
           <option value="" disabled>Select Band Color</option>

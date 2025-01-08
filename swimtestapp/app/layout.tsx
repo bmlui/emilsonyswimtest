@@ -33,10 +33,10 @@ export default function RootLayout({
         
           {children}
         </div>
-        <footer className="text-center text-gray-500 mb-5">
+        <footer className="text-center text-gray-500 mb-5 ml-5 mr-5">
         A Culture of Safety. A Commitment to Care. A Standard of Excellence.<br/>
           Data is synced with the Google Sheet on the supervisor account.<br/>
-          For support, please email <a href="mailto:contact@brandonlui.com" className="text-blue-500 underline">contact@brandonlui.com</a>.
+          For support, please email <a href="mailto:contact@brandonlui.com" className="text-blue-500 underline">contact@brandonlui.com</a> or call <a href="tel:+18024172584" className="text-blue-500 underline ">+1 (802) 417-BLUI</a> (1-802-417-2584).
         </footer>
         <div className="min-h-screen"></div>
       </body>

@@ -23,20 +23,10 @@ export async function getSheetData(spreadsheetId: string, range: string) {
   return response.data.values;
 }
 
-export async function addSheetData(spreadsheetId: string, data: SwimTestData) {
+export async function addSheetData(spreadsheetId: string,range:string,  data: SwimTestData) {
   const client = await getAuthClient();
   
-  // Get the last row number by querying the last cell in column C
-  const currentData = await sheets.spreadsheets.values.get({
-  auth: client,
-  spreadsheetId,
-  range: 'Sheet1!C:C',
-  majorDimension: 'COLUMNS',
-  });
-  const nextRow = currentData.data.values ? currentData.data.values[0].length + 1 : 1;
-  const range = `Sheet1!A${nextRow}:E${nextRow}`;
-
-  await sheets.spreadsheets.values.update({
+  await sheets.spreadsheets.values.append({
   auth: client,
   spreadsheetId,
   range,

@@ -14,7 +14,7 @@ export async function GET() {
 export async function POST(request: Request) {
   const body = await request.json();
   try {
-  await addSheetData(SPREADSHEET_ID, body);
+  await addSheetData(SPREADSHEET_ID,RANGE,  body);
   } catch (error) {
   console.error(error);
   return NextResponse.json({ message: 'Failed to add data' }, { status: 500 });
