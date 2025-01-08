@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { SwimTestData } from '../page';
 
+
 export default function AddDataForm({ onAdd, data }: { onAdd: (data: SwimTestData) => void; data: SwimTestData[] }) {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -10,21 +11,45 @@ export default function AddDataForm({ onAdd, data }: { onAdd: (data: SwimTestDat
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const testDate = new Date().toLocaleDateString('en-US');
-    const fullName = `${firstName} ${lastName}`.replace(/[^a-zA-Z]/g, '').toUpperCase();
+
+    // Sanitize input
+    const sanitizedFirstName = firstName.replace(/[^a-zA-Z'-]/g, '').trim();
+    const sanitizedLastName = lastName.replace(/[^a-zA-Z'-]/g, '').trim();
+    const sanitizedTester = tester.replace(/[^a-zA-Z '-]/g, '').trim();
+    setFirstName(sanitizedFirstName);
+    setLastName(sanitizedLastName);
+    setTester(sanitizedTester);
+    const sanitizedTesterNoSpace = tester.replace(/\s/g, '');
+// Validate input
+    if (sanitizedFirstName.length < 2 || sanitizedFirstName.length > 25) {
+      alert('ERROR! First name must be between 2 and 25 characters.');
+      return;
+    }
+    if (sanitizedLastName.length < 2 || sanitizedLastName.length > 25) {
+      alert('ERROR! Last name must be between 2 and 25 characters.');
+      return;
+    }
+    if (sanitizedTesterNoSpace.length < 2 || sanitizedTester.length > 50) {
+      alert('ERROR! Tester name must be between 2 and 50 characters.');
+      return;
+    }
+    // Check if swimmer already exists
+    const fullName = `${sanitizedFirstName}${sanitizedLastName}`.replace(/[^a-zA-Z]/g, '').toUpperCase();
     const existingSwimmer = data.find((item) => item.fullName === fullName);
     if (existingSwimmer) {
-        alert(`ERROR! Swimmer ${firstName.toUpperCase()} ${lastName.toUpperCase()} already exists with band color ${existingSwimmer.bandColor.toUpperCase()}. Tested by ${existingSwimmer.tester.toUpperCase()} on Date ${existingSwimmer.testDate.toUpperCase()}.`);
+        alert(`ERROR! Swimmer ${existingSwimmer.firstName.toUpperCase()} ${existingSwimmer.lastName.toUpperCase()} already exists with band color ${existingSwimmer.bandColor.toUpperCase()}. Tested by ${existingSwimmer.tester.toUpperCase()} on Date ${existingSwimmer.testDate.toUpperCase()}.`);
         return;
       }
-      
+      // Create new swimmer object
     const swimTestData: SwimTestData = {
-      firstName,
-      lastName,
+      firstName: sanitizedFirstName,
+      lastName: sanitizedLastName,
       bandColor,
-      tester,
+      tester: sanitizedTester,
       testDate,
       fullName,
     };
+    // Add swimmer to database
 try {
     const response = await fetch('/api/swimtest', {
       method: 'POST',
@@ -34,7 +59,7 @@ try {
 
     if (response.ok) {
       onAdd(swimTestData);
-      alert(`Success! Swimmer ${firstName.toUpperCase()} ${lastName.toUpperCase()} added as ${bandColor.toUpperCase()} band.`);
+      alert(`Success! Swimmer ${sanitizedFirstName.toUpperCase()} ${sanitizedLastName.toUpperCase()} added as ${bandColor.toUpperCase()} band.`);
       setFirstName('');
       setLastName('');
     } else {

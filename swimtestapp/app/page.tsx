@@ -43,7 +43,7 @@ export default function Home() {
       
         // Add a full name column for searching purposes, removing all other characters then alphabet and making it uppercase
         data.forEach((item: SwimTestData) => {
-          item.fullName = item.firstName + ' ' + item.lastName;
+          item.fullName = item.firstName + item.lastName;
           item.fullName = item.fullName.replace(/[^a-zA-Z]/g, '').toUpperCase();
         });
         
