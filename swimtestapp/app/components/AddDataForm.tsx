@@ -37,7 +37,7 @@ export default function AddDataForm({ onAdd, data }: { onAdd: (data: SwimTestDat
     const fullName = `${sanitizedFirstName}${sanitizedLastName}`.replace(/[^a-zA-Z]/g, '').toUpperCase();
     const existingSwimmer = data.find((item) => item.fullName === fullName);
     if (existingSwimmer) {
-        alert(`ERROR! Swimmer ${existingSwimmer.firstName.toUpperCase()} ${existingSwimmer.lastName.toUpperCase()} already exists with band color ${existingSwimmer.bandColor.toUpperCase()}. Tested by ${existingSwimmer.tester.toUpperCase()} on Date ${existingSwimmer.testDate.toUpperCase()}.`);
+        alert(`ERROR! Swimmer ${existingSwimmer.firstName.toUpperCase()} ${existingSwimmer.lastName.toUpperCase()} already exists as a ${existingSwimmer.bandColor.toUpperCase()} band. Tested by ${existingSwimmer.tester.toUpperCase()} on Date ${existingSwimmer.testDate.toUpperCase()}.`);
         return;
       }
       // Create new swimmer object
@@ -59,7 +59,7 @@ try {
 
     if (response.ok) {
       onAdd(swimTestData);
-      alert(`Success! Swimmer ${sanitizedFirstName.toUpperCase()} ${sanitizedLastName.toUpperCase()} added as ${bandColor.toUpperCase()} band.`);
+      alert(`Success! Swimmer ${sanitizedFirstName.toUpperCase()} ${sanitizedLastName.toUpperCase()} was added as a ${bandColor.toUpperCase()} band.`);
       setFirstName('');
       setLastName('');
     } else {
