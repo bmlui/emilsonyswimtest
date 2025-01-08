@@ -74,6 +74,16 @@ export const del = async (key: string): Promise<void> => {
     }
 };
 
+export const flushall = async (): Promise<void> => {
+    if (!redis) return;
+    try {
+        await redis.flushall();
+    } catch (error) {
+        console.error('Error flushing Redis:', error);
+        throw error;
+    }
+};
+
 const redisClient = {
     get,
     set,
@@ -81,6 +91,7 @@ const redisClient = {
     setList,
     pushToEnd,
     del,
+    flushall,
 };
 
 export default redisClient;
