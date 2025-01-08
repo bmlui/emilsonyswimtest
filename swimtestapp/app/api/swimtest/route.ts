@@ -40,7 +40,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ message: 'Failed to add data' }, { status: 500 });
   }
   try {
-    const redisPushData = [body.firstName, body.lastName, body.bandColor, body.tester, body.testDate];
+    const redisPushData = [ body.lastName, body.firstName, body.bandColor, body.tester, body.testDate];
   await redisClient.pushToEnd(cacheKey, JSON.stringify(redisPushData));
   } catch (error) { 
     console.error(error);
