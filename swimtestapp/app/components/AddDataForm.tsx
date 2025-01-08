@@ -34,7 +34,7 @@ try {
 
     if (response.ok) {
       onAdd(swimTestData);
-      alert(`Success! Swimmer ${firstName.toUpperCase()} ${lastName.toUpperCase()} added as ${bandColor.toUpperCase()} band. Tested by ${tester.toUpperCase()} on Date ${testDate.toUpperCase()}.`);
+      alert(`Success! Swimmer ${firstName.toUpperCase()} ${lastName.toUpperCase()} added as ${bandColor.toUpperCase()} band.`);
       setFirstName('');
       setLastName('');
     } else {
@@ -85,7 +85,7 @@ try {
           className={`w-full p-2 border border-gray-300 rounded appearance-none ${
             bandColor === 'g' ? 'bg-green-100 text-green-800' :
             bandColor === 'y' ? 'bg-yellow-100 text-yellow-800' :
-            bandColor === 'r' ? 'bg-red-100 text-red-800' : ''
+            bandColor === 'r' ? 'bg-red-100 text-red-800' : 'bg-white'
           }`}
         >
           <option value="" disabled>Select Band Color</option>
