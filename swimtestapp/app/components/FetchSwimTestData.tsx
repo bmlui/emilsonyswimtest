@@ -7,9 +7,10 @@ interface FetchSwimTestDataProps {
   setFilteredData: (data: SwimTestData[]) => void;
   setIsLoading: (isLoading: boolean) => void;
   onAdd: (data: SwimTestData) => void;
+  setIsConnected: (isConnected: boolean) => void;
 }
 
-const FetchSwimTestData: React.FC<FetchSwimTestDataProps> = ({ setData, setFilteredData, setIsLoading, onAdd}) => {
+const FetchSwimTestData: React.FC<FetchSwimTestDataProps> = ({ setData, setFilteredData, setIsLoading, onAdd, setIsConnected}) => {
   useEffect(() => {
     setIsLoading(true);
     fetch('/api/swimtest')
@@ -56,6 +57,7 @@ const FetchSwimTestData: React.FC<FetchSwimTestDataProps> = ({ setData, setFilte
         const pusherCluster = process.env.NEXT_PUBLIC_PUSHER_CLUSTER as string;
 
         if (!pusherAppKey || !pusherCluster) {
+            setIsConnected(false);
             throw new Error('Pusher app key or cluster is not defined');
         }
 
@@ -66,6 +68,7 @@ const FetchSwimTestData: React.FC<FetchSwimTestDataProps> = ({ setData, setFilte
 
         pusher.connection.bind('connected', () => {
                 console.log('Connected to websocket');
+                setIsConnected(true);
         });
     
         const channel = pusher.subscribe('swim-test-channel');
@@ -78,22 +81,33 @@ const FetchSwimTestData: React.FC<FetchSwimTestDataProps> = ({ setData, setFilte
             testDate: data[4] || '',
             fullName: (data[1] + data[0]).replace(/[^a-zA-Z]/g, '').toUpperCase() || '',
             };
-            if (process.env.NODE_ENV === 'development') {console.log('New data Websocket Received:', newData);}
+            if (process.env.NODE_ENV === 'development') {
+                console.log('New data Websocket Received:', newData);
+            }
             if (!newData.fullName || newData.fullName.trim() === '') return;
             onAdd(newData);
         });
         pusher.connection.bind('error', (err: Error) => {
+            setIsConnected(false);
             console.error('Pusher websocket connection error:', err.message);
         });
+
+        pusher.connection.bind('disconnected', () => {
+            setIsConnected(false);
+            console.log('Disconnected from websocket'); });
+
+
         return () => {
             channel.unbind_all();
             channel.unsubscribe();
             pusher.disconnect();
+            setIsConnected(false);
         };
         } catch (error) {
+            setIsConnected(false);
         console.error('Failed to subscribe to Pusher Websocket:', error);
     }
-  }, [setData, setFilteredData, setIsLoading, onAdd]);
+  }, [setData, setFilteredData, setIsLoading, onAdd, setIsConnected]);
 
  
 

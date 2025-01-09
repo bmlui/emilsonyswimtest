@@ -1,10 +1,11 @@
 'use client';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import AddDataForm from './components/AddDataForm';
 import SearchBar from './components/SearchBar';
 import SwimTestList from './components/SwimTestList';
 import FetchSwimTestData from './components/FetchSwimTestData';
 import Header from './components/Header';
+import LiveIndicator from './components/LiveIndicator';
 
 export interface SwimTestData {
   firstName: string;
@@ -19,6 +20,14 @@ export default function Home() {
   const [data, setData] = useState<SwimTestData[]>([]);
   const [filteredData, setFilteredData] = useState<SwimTestData[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isConnected, setIsConnected] = useState<boolean>(false);
+  const [showLiveIndicator, setShowLiveIndicator] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (isConnected) {
+      setShowLiveIndicator(true);
+    }
+  }, [isConnected]);
 
 
   const handleSearch = (query: string) => {
@@ -51,7 +60,7 @@ export default function Home() {
 
   return (
     <div>
-      <FetchSwimTestData setData={setData} setFilteredData={setFilteredData} setIsLoading={setIsLoading} onAdd={addDataLocal} />
+      <FetchSwimTestData  setData={setData} setFilteredData={setFilteredData} setIsLoading={setIsLoading} onAdd={addDataLocal} setIsConnected={setIsConnected}/>
     <div className="p-4 space-y-4">
     <Header />
       <div className=" max-w-xs mx-auto p-4 bg-gray-100 rounded-lg">
@@ -59,6 +68,7 @@ export default function Home() {
         <AddDataForm onAdd={addDataLocal} data={data}/>
       </div>
       <div className="p-4 space-y-4 rounded-lg bg-gray-100 max-w-4xl mx-auto">
+        { showLiveIndicator && <LiveIndicator isConnected={isConnected} />}
         <SearchBar onSearch={handleSearch} />
         {isLoading ? (
           <div className="flex justify-center items-center">
