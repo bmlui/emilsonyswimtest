@@ -6,7 +6,7 @@ import redisClient from '../../services/redis';
 
 const SPREADSHEET_ID = process.env.SPREADSHEET_ID || 'your-spreadsheet-id';
 const RANGE = process.env.SPREADSHEET_RANGE || 'Sheet1!A:E';
-const cacheKey = 'sheetData';
+const cacheKey = process.env.REDIS_CACHEKEY || 'sheetData';
 
 
 export async function GET() {
