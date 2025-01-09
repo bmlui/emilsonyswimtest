@@ -2,11 +2,12 @@ import { NextResponse } from 'next/server';
 import { getSheetData, addSheetData } from '../../services/googleSheetService';
 
 import redisClient from '../../services/redis';
+import PusherService from '../../services/pusher';
 
 
 const SPREADSHEET_ID = process.env.SPREADSHEET_ID || 'your-spreadsheet-id';
 const RANGE = process.env.SPREADSHEET_RANGE || 'Sheet1!A:E';
-const cacheKey = process.env.REDIS_CACHEKEY || 'sheetData';
+const cacheKey = process.env.REDIS_CACHEKEY || 'swimTestCache';
 
 
 export async function GET() {
@@ -31,20 +32,30 @@ export async function GET() {
 
 export async function POST(request: Request) {
   const body = await request.json();
-  try {
-    await addSheetData(SPREADSHEET_ID, RANGE, body);
+  const bodyToArray = [ body.lastName, body.firstName, body.bandColor, body.tester, body.testDate];
 
+  try {
+    await addSheetData(SPREADSHEET_ID, RANGE, bodyToArray);
     // Push the new data to the Redis list after adding it to the sheet
   } catch (error) {
     console.error(error);
     return NextResponse.json({ message: 'Failed to add data' }, { status: 500 });
   }
+
   try {
-    const redisPushData = [ body.lastName, body.firstName, body.bandColor, body.tester, body.testDate];
-  await redisClient.pushToEnd(cacheKey, JSON.stringify(redisPushData));
+  await redisClient.pushToEnd(cacheKey, JSON.stringify(bodyToArray));
   } catch (error) { 
     console.error(error);
   }
+
+  // Push the new data to the Pusher channel
+  try {
+    await PusherService.getInstance().trigger('swim-test-channel', 'new-swim-test', bodyToArray);
+  } catch (error) {
+    console.error(error);
+  }
+
+
 
   return NextResponse.json({ message: 'Data added successfully' });
 }

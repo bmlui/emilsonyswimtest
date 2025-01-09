@@ -1,8 +1,11 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useCallback, useState } from 'react';
 import AddDataForm from './components/AddDataForm';
 import SearchBar from './components/SearchBar';
 import SwimTestList from './components/SwimTestList';
+import FetchSwimTestData from './components/FetchSwimTestData';
+import Header from './components/Header';
+
 export interface SwimTestData {
   firstName: string;
   lastName: string;
@@ -17,46 +20,6 @@ export default function Home() {
   const [filteredData, setFilteredData] = useState<SwimTestData[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  useEffect(() => {
-    fetch('/api/swimtest')
-      .then((response) => {
-        if (!response.ok) {
-          console.error(response);
-          throw new Error(`Server error: ${response.status} ${response.statusText}`);
-        }
-        return response.json();
-      })
-      .then((data) => {
-        console.log(data);
-        data.splice(0, 3);
-
-        //remove empty rows
-        data = data.filter((item: string[]) => item.length > 0);
-        
-        data = data.map((item: string) => ({
-          firstName: item[1] || '',
-          lastName: item[0] || '',
-          bandColor: item[2] || '',
-          tester: item[3] || '',
-          testDate: item[4] || '',
-        }));
-      
-        // Add a full name column for searching purposes, removing all other characters then alphabet and making it uppercase
-        data.forEach((item: SwimTestData) => {
-          item.fullName = item.firstName + item.lastName;
-          item.fullName = item.fullName.replace(/[^a-zA-Z]/g, '').toUpperCase();
-        });
-        
-        setData(data);
-        setFilteredData(data);
-        setIsLoading(false); // Set loading to false after data is fetched
-      })
-      .catch((error) => {
-        alert(`Error fetching data: ${error.message}`);
-        console.error(error);
-        setIsLoading(false);
-      });
-}, []);
 
   const handleSearch = (query: string) => {
     const filtered = data.filter((item) =>
@@ -69,22 +32,28 @@ export default function Home() {
     setFilteredData(filtered);
   };
 
-  const addDataLocal = async (swimTestData: SwimTestData) => {
-    setData([...data, swimTestData]);
-    setFilteredData([...filteredData, swimTestData]);
-  }
+  const addDataLocal = useCallback((newData: SwimTestData) => {
+    setData((prevData) => {
+      if (prevData.some((item) => item.fullName === newData.fullName)) {
+        return prevData;
+      } else {
+        return [...prevData, newData];
+      }
+    });
+    setFilteredData((prevFilteredData) => {
+      if (prevFilteredData.some((item) => item.fullName === newData.fullName)) {
+        return prevFilteredData;
+      } else {
+        return [...prevFilteredData, newData];
+      }
+    });
+  }, []);
 
   return (
+    <div>
+      <FetchSwimTestData setData={setData} setFilteredData={setFilteredData} setIsLoading={setIsLoading} onAdd={addDataLocal} />
     <div className="p-4 space-y-4">
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-2xl font-bold">Emilson Y Swim Test Log</h1>
-        <button
-          onClick={() => (window.location.href = "/cdn-cgi/access/logout")}
-          className="bg-red-500 text-white px-4 py-2 rounded hover:opacity-80"
-        >
-          Logout
-        </button>
-      </div>
+    <Header />
       <div className=" max-w-xs mx-auto p-4 bg-gray-100 rounded-lg">
         <h2 className="text-xl font-bold mb-3">Add Swim Test Data</h2>
         <AddDataForm onAdd={addDataLocal} data={data}/>
@@ -99,6 +68,7 @@ export default function Home() {
           <SwimTestList data={filteredData} />
         )}
       </div>
+    </div>
     </div>
   );
 }

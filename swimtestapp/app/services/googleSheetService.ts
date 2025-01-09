@@ -1,6 +1,5 @@
 import { google } from 'googleapis';
 import { JWT } from 'google-auth-library';
-import { SwimTestData } from '../page';
 
 const sheets = google.sheets('v4');
 
@@ -23,7 +22,7 @@ export async function getSheetData(spreadsheetId: string, range: string) {
   return response.data.values;
 }
 
-export async function addSheetData(spreadsheetId: string,range:string,  data: SwimTestData) {
+export async function addSheetData(spreadsheetId: string,range:string,  data: string[]) {
   const client = await getAuthClient();
   
   await sheets.spreadsheets.values.append({
@@ -32,7 +31,7 @@ export async function addSheetData(spreadsheetId: string,range:string,  data: Sw
   range,
   valueInputOption: 'RAW',
   requestBody: {
-    values: [[ data.lastName, data.firstName, data.bandColor, data.tester, data.testDate]],
+    values: [[ ...data ]],
   },
   });
 }

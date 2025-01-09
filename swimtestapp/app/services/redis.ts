@@ -6,21 +6,34 @@ class RedisClient {
 
     private constructor() {}
 
-    public static getInstance(): Redis {
+
+    public static getInstance(): Redis | null {
+    
+
         if (!RedisClient.instance) {
             if (process.env.REDIS_URL) {
                 try {
                     RedisClient.instance = new Redis(process.env.REDIS_URL);
                 } catch (error) {
                     console.error('Error connecting to Redis:', error);
-                    RedisClient.instance = null;
+                    return null;
+                }
+                if (RedisClient.instance) {
+                    RedisClient.instance.on('error', (err) => {
+                        console.error('Redis client error:', err);
+                        RedisClient.instance?.disconnect();
+                        RedisClient.instance = null;
+                    });
                 }
             } else {
                 console.warn('REDIS_URL environment variable is not defined');
+                return null;
             }
         }
-        return RedisClient.instance!;
+        return RedisClient.instance;
     }
+
+    
 
     public static async get(key: string): Promise<string | null> {
         const redis = RedisClient.getInstance();
@@ -115,13 +128,11 @@ class RedisClient {
 if (process.env.NODE_ENV === 'development') {
     process.on('SIGINT', async () => {
         await RedisClient.close();
-        console.log('Closed Redis connection');
         process.exit(0);
     });
 
     process.on('SIGTERM', async () => {
         await RedisClient.close();
-        console.log('Closed Redis connection');
         process.exit(0);
     });
 }
