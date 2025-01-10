@@ -50,7 +50,7 @@ export async function POST(request: Request) {
 
   // Push the new data to the Pusher channel
   try {
-    await PusherService.getInstance().trigger('swim-test-channel', 'new-swim-test', bodyToArray);
+    await PusherService.getInstance().trigger('private-swim-test-channel', 'new-swim-test', bodyToArray);
   } catch (error) {
     console.error(error);
   }

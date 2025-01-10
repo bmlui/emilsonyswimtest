@@ -62,7 +62,9 @@ const FetchSwimTestData: React.FC<FetchSwimTestDataProps> = ({ setData, setFilte
         }
 
         const pusher = new Pusher(pusherAppKey, {
-            cluster: pusherCluster
+            cluster: pusherCluster,
+            forceTLS: true,
+            channelAuthorization: { endpoint: "/api/swimtest/pusherauth", transport: 'ajax' }
         });
 
 
@@ -71,8 +73,8 @@ const FetchSwimTestData: React.FC<FetchSwimTestDataProps> = ({ setData, setFilte
                 setIsConnected(true);
         });
     
-        const channel = pusher.subscribe('swim-test-channel');
-        channel.bind('new-swim-test', (data: string[]) => {
+        const channel = pusher.subscribe('private-swim-test-channel');
+            channel.bind('new-swim-test', (data: string[]) => {
             const newData:SwimTestData = {
             firstName: data[1] || '',
             lastName: data[0] || '',

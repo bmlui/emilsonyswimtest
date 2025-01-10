@@ -29,7 +29,6 @@ export default function Home() {
     }
   }, [isConnected]);
 
-
   const handleSearch = (query: string) => {
     const filtered = data.filter((item) =>
       item.fullName.includes(query.replace(/[^a-zA-Z]/g, '').toUpperCase())
