@@ -14,7 +14,7 @@ const LiveIndicator: React.FC<LiveIndicatorProps> = ({ isConnected }) => {
             <div
                 className={`w-2.5 h-2.5 rounded-full mr-2 ${isConnected ? 'bg-green-500' : 'bg-red-500'}`}
             ></div>
-            <span className="mr-2">{isConnected ? 'Live Updates' : 'Disconnected'}</span>
+            <span className="mr-2">{isConnected ? 'Live connection' : 'Offline mode'}</span>
             {!isConnected && (
                 <button onClick={onReconnect} className="text-blue-500 text-sm flex items-center hover:underline">
                     <svg
