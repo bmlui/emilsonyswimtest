@@ -15,9 +15,10 @@ export default function AddDataForm({
   const [submitDisabled, setSubmitDisabled] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     if (submitDisabled) return;
     setSubmitDisabled(true);
-    e.preventDefault();
+
     const testDate = new Date().toLocaleDateString("en-US");
 
     // Sanitize input

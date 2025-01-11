@@ -5,6 +5,7 @@ import SearchBar from "./components/SearchBar";
 import SwimTestList from "./components/SwimTestList";
 import FetchSwimTestData from "./components/FetchSwimTestData";
 import Header from "./components/Header";
+import Footer from "./components/Footer";
 import LiveIndicator from "./components/LiveIndicator";
 
 export interface SwimTestData {
@@ -66,6 +67,7 @@ export default function Home() {
           )}
         </div>
       </div>
+      <Footer />
     </div>
   );
 }
