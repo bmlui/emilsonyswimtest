@@ -19,7 +19,7 @@ export default function AddDataForm({
     if (submitDisabled) return;
     setSubmitDisabled(true);
 
-    const testDate = new Date().toLocaleDateString("en-US");
+    const testDate = new Date();
 
     // Sanitize input
     const sanitizedFirstName = firstName
@@ -118,7 +118,9 @@ export default function AddDataForm({
     const existingSwimmer = data.find((item) => item.fullName === fullName);
     if (existingSwimmer) {
       alert(
-        `ERROR! Swimmer ${existingSwimmer.firstName.toUpperCase()} ${existingSwimmer.lastName.toUpperCase()} already exists as a ${existingSwimmer.bandColor.toUpperCase()} band. Tested by ${existingSwimmer.tester.toUpperCase()} on Date ${existingSwimmer.testDate.toUpperCase()}.`
+        `ERROR! Swimmer ${existingSwimmer.firstName.toUpperCase()} ${existingSwimmer.lastName.toUpperCase()} already exists as a ${existingSwimmer.bandColor.toUpperCase()} band. Tested by ${existingSwimmer.tester.toUpperCase()} on Date ${existingSwimmer.testDate
+          .toLocaleDateString("en-US")
+          .toUpperCase()}.`
       );
       setSubmitDisabled(false);
       return;
@@ -247,7 +249,7 @@ export default function AddDataForm({
         type="submit"
         className={`px-4 py-2 rounded ${
           submitDisabled
-            ? "bg-gray-400 text-gray-800 cursor-not-allowed"
+            ? "bg-gray-500 text-gray-800 cursor-not-allowed"
             : "bg-blue-500 text-white hover:opacity-80"
         }`}
         disabled={submitDisabled}
