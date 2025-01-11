@@ -1,22 +1,30 @@
 import { useState } from 'react';
+import { SwimTestData } from '../page';
 
-export default function SearchBar({ onSearch }: { onSearch: (query: string) => void }) {
+export default function SearchBar({ data, setFilteredData }: { data: SwimTestData[]; setFilteredData: (filteredData: SwimTestData[]) => void }) {
   const [query, setQuery] = useState('');
   const [isSearched, setIsSearched] = useState(false);
 
-  const handleSearch = () => {
-    if (!query) {
-      handleClear();
-    } else {
-        onSearch(query);
-        setIsSearched(true);
-      }
-    
-  };
+    const handleSearch = () => {
+      if (!query) {
+        handleClear();
+      } else {
+        const filtered = data.filter((item) =>
+          item.fullName.includes(query.replace(/[^a-zA-Z]/g, '').toUpperCase())
+        );
+        if (query === '') {
+          setFilteredData(data);
+          return;
+        }
+        setFilteredData(filtered);
+          setIsSearched(true);
+        }
+  
+    };
 
   const handleClear = () => {
     setQuery('');
-    onSearch('');
+    setFilteredData(data);
     setIsSearched(false);
   };
 
@@ -32,7 +40,7 @@ export default function SearchBar({ onSearch }: { onSearch: (query: string) => v
         type="text"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        onKeyPress={handleKeyPress}
+        onKeyDown={handleKeyPress}
         placeholder="Search..."
         className="flex-grow p-2 border border-gray-300 rounded"
       />
