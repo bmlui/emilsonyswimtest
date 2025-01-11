@@ -13,7 +13,7 @@ export interface SwimTestData {
   lastName: string;
   bandColor: string;
   tester: string;
-  testDate: string;
+  testDate: Date;
   fullName: string;
 }
 

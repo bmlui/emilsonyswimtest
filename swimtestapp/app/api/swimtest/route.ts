@@ -32,10 +32,16 @@ export async function GET() {
 
 export async function POST(request: Request) {
   const body = await request.json();
-  const bodyToArray = [ body.lastName, body.firstName, body.bandColor, body.tester, body.testDate];
+  const bodyToStrArr = [
+    body.lastName,
+    body.firstName,
+    body.bandColor,
+    body.tester,
+    new Date(body.testDate).toLocaleDateString("en-US")
+  ];
 
   try {
-    await addSheetData(SPREADSHEET_ID, RANGE, bodyToArray);
+    await addSheetData(SPREADSHEET_ID, RANGE, bodyToStrArr);
     // Push the new data to the Redis list after adding it to the sheet
   } catch (error) {
     console.error(error);
@@ -43,14 +49,14 @@ export async function POST(request: Request) {
   }
 
   try {
-  await redisClient.pushToEnd(cacheKey, JSON.stringify(bodyToArray));
+  await redisClient.pushToEnd(cacheKey, JSON.stringify(bodyToStrArr));
   } catch (error) { 
     console.error(error);
   }
 
   // Push the new data to the Pusher channel
   try {
-    await PusherService.getInstance().trigger('private-swim-test-channel', 'new-swim-test', bodyToArray);
+    await PusherService.getInstance().trigger('private-swim-test-channel', 'new-swim-test', bodyToStrArr);
   } catch (error) {
     console.error(error);
   }

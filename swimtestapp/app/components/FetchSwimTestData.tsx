@@ -41,7 +41,7 @@ const FetchSwimTestData: React.FC<FetchSwimTestDataProps> = ({
           lastName: item[0] || "",
           bandColor: item[2] || "",
           tester: item[3] || "",
-          testDate: item[4] || "",
+          testDate: new Date(item[4]) || "",
         }));
 
         // Add a full name column for searching purposes, removing all other characters then alphabet and making it uppercase
@@ -92,7 +92,7 @@ const FetchSwimTestData: React.FC<FetchSwimTestDataProps> = ({
           lastName: data[0] || "",
           bandColor: data[2] || "",
           tester: data[3] || "",
-          testDate: data[4] || "",
+          testDate: new Date(data[4]) || "",
           fullName:
             (data[1] + data[0]).replace(/[^a-zA-Z]/g, "").toUpperCase() || "",
         };

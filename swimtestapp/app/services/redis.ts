@@ -2,7 +2,7 @@ import Redis from 'ioredis';
 
 class RedisClient {
     private static instance: Redis | null = null;
-    private static EXPIRY_TIME = 120 * 60; // 60 minutes in seconds
+    private static EXPIRY_TIME = 120 * 60; // 120 minutes in seconds
 
     private constructor() {}
 
