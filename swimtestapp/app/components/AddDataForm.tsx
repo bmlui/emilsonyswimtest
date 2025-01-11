@@ -12,11 +12,11 @@ export default function AddDataForm({
   const [lastName, setLastName] = useState("");
   const [bandColor, setBandColor] = useState("");
   const [tester, setTester] = useState("");
-  const [disabled, setDisabled] = useState(false);
+  const [submitDisabled, setSubmitDisabled] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
-    if (disabled) return;
-    setDisabled(true);
+    if (submitDisabled) return;
+    setSubmitDisabled(true);
     e.preventDefault();
     const testDate = new Date().toLocaleDateString("en-US");
 
@@ -32,19 +32,19 @@ export default function AddDataForm({
     // Validate input
     if (sanitizedFirstName.length < 2 || sanitizedFirstName.length > 20) {
       alert("ERROR! First name must be between 2 and 25 characters.");
-      setDisabled(false);
+      setSubmitDisabled(false);
       return;
     }
     if (sanitizedLastName.length < 2 || sanitizedLastName.length > 20) {
       alert("ERROR! Last name must be between 2 and 20 characters.");
-      setDisabled(false);
+      setSubmitDisabled(false);
       return;
     }
     if (sanitizedTesterNoSpace.length < 3 || sanitizedTester.length > 38) {
       alert(
         "ERROR! Tester name must be between 3 and 38 characters. Please enter the full name of the lifeguard tester."
       );
-      setDisabled(false);
+      setSubmitDisabled(false);
       return;
     }
 
@@ -75,14 +75,14 @@ export default function AddDataForm({
     setTester(finalTester);
     if (testerNameParts.length < 2) {
       alert("ERROR! Tester name must include both a first and last name.");
-      setDisabled(false);
+      setSubmitDisabled(false);
       return;
     }
     if (testerNameParts.some((part) => part.length < 2)) {
       alert(
         "ERROR! Each part of the tester name must have at least 2 characters."
       );
-      setDisabled(false);
+      setSubmitDisabled(false);
       return;
     }
     if (
@@ -97,7 +97,7 @@ export default function AddDataForm({
       alert(
         'ERROR! Tester name cannot include words like "guard," "tester," or "staff." Please provide the full name.'
       );
-      setDisabled(false);
+      setSubmitDisabled(false);
       return;
     }
 
@@ -110,7 +110,7 @@ export default function AddDataForm({
       alert(
         `ERROR! Swimmer ${existingSwimmer.firstName.toUpperCase()} ${existingSwimmer.lastName.toUpperCase()} already exists as a ${existingSwimmer.bandColor.toUpperCase()} band. Tested by ${existingSwimmer.tester.toUpperCase()} on Date ${existingSwimmer.testDate.toUpperCase()}.`
       );
-      setDisabled(false);
+      setSubmitDisabled(false);
       return;
     }
     // Create new swimmer object
@@ -135,20 +135,22 @@ export default function AddDataForm({
         alert(
           `Success! Swimmer ${sanitizedFirstName.toUpperCase()} ${sanitizedLastName.toUpperCase()} was added as a ${bandColor.toUpperCase()} band.`
         );
-        setDisabled(false);
+        setSubmitDisabled(false);
         setFirstName("");
         setLastName("");
       } else {
         console.error(response);
-        alert(`Server error. Failed to add swimmer: ${response.statusText}`);
-        setDisabled(false);
+        alert(
+          `Error adding swimmer: Server error. ${response.status} ${response.statusText} `
+        );
+        setSubmitDisabled(false);
       }
     } catch (error) {
       console.error(error);
       alert(`Error adding swimmer: ${error}`);
-      setDisabled(false);
+      setSubmitDisabled(false);
     }
-    setDisabled(false);
+    setSubmitDisabled(false);
   };
 
   return (
@@ -233,10 +235,14 @@ export default function AddDataForm({
       </div>
       <button
         type="submit"
-        className="px-4 py-2 bg-blue-500 text-white rounded hover:opacity-80"
-        disabled={disabled}
+        className={`px-4 py-2 rounded ${
+          submitDisabled
+            ? "bg-gray-400 text-gray-800 cursor-not-allowed"
+            : "bg-blue-500 text-white hover:opacity-80"
+        }`}
+        disabled={submitDisabled}
       >
-        Add Swimmer
+        {submitDisabled ? "Submitting..." : "Add Swimmer"}
       </button>
     </form>
   );
