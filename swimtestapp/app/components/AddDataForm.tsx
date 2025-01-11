@@ -21,12 +21,21 @@ export default function AddDataForm({
     const testDate = new Date().toLocaleDateString("en-US");
 
     // Sanitize input
-    const sanitizedFirstName = firstName.replace(/[^a-zA-Z'-]/g, "").trim();
-    const sanitizedLastName = lastName.replace(/[^a-zA-Z'-]/g, "").trim();
+    const sanitizedFirstName = firstName
+      .replace(/[\u2018\u2019\u201B\u2032\u2035]/g, "'")
+      .replace(/[^a-zA-Z'-]/g, "")
+      .trim();
+    const sanitizedLastName = lastName
+      .replace(/[\u2018\u2019\u201B\u2032\u2035]/g, "'")
+      .replace(/[^a-zA-Z'-]/g, "")
+      .trim();
     setFirstName(sanitizedFirstName);
     setLastName(sanitizedLastName);
 
-    const sanitizedTester = tester.replace(/[^a-zA-Z '-]/g, "").trim();
+    const sanitizedTester = tester
+      .replace(/[\u2018\u2019\u201B\u2032\u2035]/g, "'")
+      .replace(/[^a-zA-Z '-]/g, "")
+      .trim();
     const sanitizedTesterNoSpace = tester.replace(/\s/g, "");
 
     // Validate input
@@ -48,7 +57,7 @@ export default function AddDataForm({
       return;
     }
 
-    // Ensure tester name is a full first and last name
+    // Validate Tester: Ensure tester name is a full first and last name
     const testerNameParts = sanitizedTester.split(/\s+/);
     const finalTester = testerNameParts
       .map((part, index) => {
