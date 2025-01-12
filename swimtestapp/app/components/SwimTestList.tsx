@@ -128,11 +128,17 @@ export default function SwimTestList({ data }: { data: SwimTestData[] }) {
               </td>
               <td className="px-3 py-1 ">{item.tester}</td>
               <td className="px-3 py-1 whitespace-nowrap">
-                {item.testDate.toLocaleDateString("en-US", {
-                  month: "2-digit",
-                  day: "2-digit",
-                  year: "numeric",
-                })}
+                {(() => {
+                  try {
+                    return item.testDate.toLocaleDateString("en-GB", {
+                      day: "2-digit",
+                      month: "short",
+                      year: "numeric",
+                    });
+                  } catch {
+                    return "Invalid Date";
+                  }
+                })()}
               </td>
             </tr>
           ))
