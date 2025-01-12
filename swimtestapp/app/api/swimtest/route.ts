@@ -37,7 +37,7 @@ export async function POST(request: Request) {
     body.firstName,
     body.bandColor,
     body.tester,
-    new Date(body.testDate).toLocaleDateString("en-US")
+    new Date().toLocaleDateString("en-US")
   ];
 
   try {

@@ -1,36 +1,37 @@
-import { useState } from 'react';
-import { SwimTestData } from '../page';
+import { useState } from "react";
 
-export default function SearchBar({ data, setFilteredData }: { data: SwimTestData[]; setFilteredData: (filteredData: SwimTestData[]) => void }) {
-  const [query, setQuery] = useState('');
+export default function SearchBar({
+  searchTerm,
+  setSearchTerm,
+}: {
+  searchTerm: string;
+  setSearchTerm: (arg0: string) => void;
+}) {
+  const [query, setQuery] = useState("");
   const [isSearched, setIsSearched] = useState(false);
 
-    const handleSearch = () => {
-      if (!query) {
-        handleClear();
-      } else {
-        const filtered = data.filter((item) =>
-          item.fullName.includes(query.replace(/[^a-zA-Z]/g, '').toUpperCase())
-        );
-        if (query === '') {
-          setFilteredData(data);
-          return;
-        }
-        setFilteredData(filtered);
-          setIsSearched(true);
-        }
-  
-    };
+  const handleAction = () => {
+    if (!query || query === "") {
+      setQuery("");
+      setIsSearched(false);
+      setSearchTerm("");
+    } else if (query === searchTerm) {
+      return;
+    } else {
+      setIsSearched(true);
+      setSearchTerm(query);
+    }
+  };
 
   const handleClear = () => {
-    setQuery('');
-    setFilteredData(data);
+    setQuery("");
     setIsSearched(false);
+    setSearchTerm("");
   };
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      handleSearch();
+    if (e.key === "Enter") {
+      handleAction();
     }
   };
 
@@ -45,10 +46,12 @@ export default function SearchBar({ data, setFilteredData }: { data: SwimTestDat
         className="flex-grow p-2 border border-gray-300 rounded"
       />
       <button
-        onClick={isSearched ? handleClear : handleSearch}
-        className={`px-4 py-2 rounded hover:opacity-80 ${isSearched ? 'bg-gray-500' : 'bg-blue-500'} text-white`}
+        onClick={isSearched ? handleClear : handleAction}
+        className={`px-4 py-2 rounded hover:opacity-80 ${
+          isSearched ? "bg-gray-500" : "bg-blue-500"
+        } text-white`}
       >
-        {isSearched ? 'Clear' : 'Search'}
+        {isSearched ? "Clear" : "Search"}
       </button>
     </div>
   );

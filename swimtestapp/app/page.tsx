@@ -1,5 +1,5 @@
 "use client";
-import { useCallback, useState } from "react";
+import { useMemo, useCallback, useState } from "react";
 import AddDataForm from "./components/AddDataForm";
 import SearchBar from "./components/SearchBar";
 import SwimTestList from "./components/SwimTestList";
@@ -19,9 +19,20 @@ export interface SwimTestData {
 
 export default function Home() {
   const [data, setData] = useState<SwimTestData[]>([]);
-  const [filteredData, setFilteredData] = useState<SwimTestData[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isConnected, setIsConnected] = useState<boolean>(false);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+
+  const filteredData = useMemo(() => {
+    if (!searchTerm || searchTerm === "") {
+      return data;
+    }
+    return data.filter((item) => {
+      return item.fullName.includes(
+        searchTerm.replace(/[^a-zA-Z]/g, "").toUpperCase()
+      );
+    });
+  }, [data, searchTerm]);
 
   const addDataLocal = useCallback((newData: SwimTestData) => {
     setData((prevData) => {
@@ -31,20 +42,12 @@ export default function Home() {
         return [...prevData, newData];
       }
     });
-    setFilteredData((prevFilteredData) => {
-      if (prevFilteredData.some((item) => item.fullName === newData.fullName)) {
-        return prevFilteredData;
-      } else {
-        return [...prevFilteredData, newData];
-      }
-    });
   }, []);
 
   return (
     <div>
       <FetchSwimTestData
         setData={setData}
-        setFilteredData={setFilteredData}
         setIsLoading={setIsLoading}
         onAdd={addDataLocal}
         setIsConnected={setIsConnected}
@@ -57,7 +60,7 @@ export default function Home() {
         </div>
         <div className="p-4 space-y-4 rounded-lg bg-gray-100 max-w-4xl mx-auto">
           <LiveIndicator isConnected={isConnected} />
-          <SearchBar data={data} setFilteredData={setFilteredData} />
+          <SearchBar setSearchTerm={setSearchTerm} searchTerm={searchTerm} />
           {isLoading ? (
             <div className="flex justify-center items-center">
               <div className="animate-spin rounded-full h-8 w-8 border-4 border-gray-300 border-t-transparent"></div>

@@ -4,7 +4,6 @@ import Pusher from "pusher-js";
 
 interface FetchSwimTestDataProps {
   setData: (data: SwimTestData[]) => void;
-  setFilteredData: (data: SwimTestData[]) => void;
   setIsLoading: (isLoading: boolean) => void;
   onAdd: (data: SwimTestData) => void;
   setIsConnected: (isConnected: boolean) => void;
@@ -12,7 +11,6 @@ interface FetchSwimTestDataProps {
 
 const FetchSwimTestData: React.FC<FetchSwimTestDataProps> = ({
   setData,
-  setFilteredData,
   setIsLoading,
   onAdd,
   setIsConnected,
@@ -51,7 +49,6 @@ const FetchSwimTestData: React.FC<FetchSwimTestDataProps> = ({
         });
 
         setData(data);
-        setFilteredData(data);
         setIsLoading(false); // Set loading to false after data is fetched
       })
       .catch((error) => {
@@ -92,7 +89,7 @@ const FetchSwimTestData: React.FC<FetchSwimTestDataProps> = ({
           lastName: data[0] || "",
           bandColor: data[2] || "",
           tester: data[3] || "",
-          testDate: new Date(data[4]) || "",
+          testDate: data[4] ? new Date(data[4]) : new Date(NaN),
           fullName:
             (data[1] + data[0]).replace(/[^a-zA-Z]/g, "").toUpperCase() || "",
         };
@@ -122,7 +119,7 @@ const FetchSwimTestData: React.FC<FetchSwimTestDataProps> = ({
       setIsConnected(false);
       console.error("Failed to subscribe to Pusher Websocket:", error);
     }
-  }, [setData, setFilteredData, setIsLoading, onAdd, setIsConnected]);
+  }, [setData, setIsLoading, onAdd, setIsConnected]);
 
   return null;
 };
