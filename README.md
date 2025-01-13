@@ -1,11 +1,11 @@
 # Swim Test App for the Emilson Y
-A simple web app that pulls and adds data to a Google Sheet. 
-Previously, we used a Google Sheet to manage the swim test list. I wanted a stable fallback that is readily available. After looking at the Google Sheets API and their rate limits, we would be well under the useage. So pulling and pushing data from there is not an issue. The main issue this is adressing is having the data in a touch-friendly interface, while reducing errors in accidental edits/duplicate additions.  
+A simple web app designed to manage the swim test list at the Emilson Y. It pulls and adds data to a Google Sheet with a touch-friendly interface to reduce errors in accidental edits and duplicate additions. It uses Google Sheets API, Redis cache, and Pusher for real-time updates.
 
 ### Built With
 - Frontend: Next.js with Tailwind CSS
 - Backend: Next.js
-- Data: Google Sheets API
+- Data: Google Sheets API with Redis Cache
+- Realtime Service: Pusher
 - Hosting: Vercel
 - Auth: Cloudflare Access
 
@@ -22,7 +22,7 @@ git clone https://github.com/bmlui/emilsonyswimtest
 cd swimtestapp
 npm install
 ```
-2. Then, setup the env based on the .env.example. A Google Cloud Service Account json secrect is needed. You must also share the Google Sheet with edit permissions to the email listed on the json secrect/service account. 
+2. Then, setup the env based on the .env.example. A Google Cloud Service Account json secrect is needed. You must also share the Google Sheet with edit permissions to the email listed on the json secrect/service account. Redis and Pusher accounts are optional. 
 3. Lastly, run development server.
 
 ```
