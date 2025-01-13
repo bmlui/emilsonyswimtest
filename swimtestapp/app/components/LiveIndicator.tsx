@@ -13,9 +13,6 @@ const LiveIndicator: React.FC<LiveIndicatorProps> = ({ isConnected }) => {
     }
   }, [isConnected]);
 
-  const onReconnect = () => {
-    window.location.reload();
-  };
   return (
     <>
       {showLiveIndicator && (
@@ -28,8 +25,8 @@ const LiveIndicator: React.FC<LiveIndicatorProps> = ({ isConnected }) => {
           <span className="mr-2">
             {isConnected ? "Online" : "Offline mode"}
           </span>
-          {!isConnected && (
-            <button
+
+          {/* <button
               onClick={onReconnect}
               className="text-blue-500 text-sm flex items-center hover:underline"
             >
@@ -48,8 +45,7 @@ const LiveIndicator: React.FC<LiveIndicatorProps> = ({ isConnected }) => {
                 />
               </svg>
               Reconnect
-            </button>
-          )}
+            </button> */}
         </div>
       )}
     </>

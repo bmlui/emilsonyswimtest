@@ -7,6 +7,7 @@ import FetchSwimTestData from "./components/FetchSwimTestData";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import LiveIndicator from "./components/LiveIndicator";
+import PurgeCache from "./components/PurgeCache";
 
 export interface SwimTestData {
   firstName: string;
@@ -22,6 +23,7 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isConnected, setIsConnected] = useState<boolean>(false);
   const [searchTerm, setSearchTerm] = useState<string>("");
+  const [lastUpdated, setLastUpdated] = useState<Date>(new Date());
 
   const filteredData = useMemo(() => {
     if (!searchTerm || searchTerm === "") {
@@ -39,6 +41,10 @@ export default function Home() {
       if (prevData.some((item) => item.fullName === newData.fullName)) {
         return prevData;
       } else {
+        localStorage.setItem(
+          "swimTestData",
+          JSON.stringify([...prevData, newData])
+        );
         return [...prevData, newData];
       }
     });
@@ -51,6 +57,7 @@ export default function Home() {
         setIsLoading={setIsLoading}
         onAdd={addDataLocal}
         setIsConnected={setIsConnected}
+        setLastUpdated={setLastUpdated}
       />
       <div className="p-4 space-y-4">
         <Header />
@@ -59,7 +66,17 @@ export default function Home() {
           <AddDataForm onAdd={addDataLocal} data={data} />
         </div>
         <div className="p-4 space-y-4 rounded-lg bg-gray-100 max-w-4xl mx-auto">
-          <LiveIndicator isConnected={isConnected} />
+          <div className="flex justify-between items-center">
+            <div className="flex ">
+              <LiveIndicator isConnected={isConnected} />
+              <PurgeCache
+                lastUpdated={lastUpdated}
+                setLastUpdated={setLastUpdated}
+                setData={setData}
+                setIsLoading={setIsLoading}
+              />
+            </div>
+          </div>
           <SearchBar setSearchTerm={setSearchTerm} searchTerm={searchTerm} />
           {isLoading ? (
             <div className="flex justify-center items-center">

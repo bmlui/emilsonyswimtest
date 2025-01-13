@@ -1,7 +1,7 @@
 export default function Header() {
-    return ( 
-        <div>
-  <div className="flex justify-between items-center mb-8">
+  return (
+    <div>
+      <div className="flex justify-between items-center mb-8">
         <h1 className="text-2xl font-bold">Emilson Y Swim Test Log</h1>
         <button
           onClick={() => (window.location.href = "/cdn-cgi/access/logout")}
@@ -10,6 +10,6 @@ export default function Header() {
           Logout
         </button>
       </div>
-        </div>
-    );
+    </div>
+  );
 }
