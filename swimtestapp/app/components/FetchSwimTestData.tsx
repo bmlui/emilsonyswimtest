@@ -88,6 +88,7 @@ export const fetchData = async (
       });
 
       setData(data);
+      setLastUpdated(new Date());
       localStorage.setItem("swimTestData", JSON.stringify(data));
       localStorage.setItem("swimTestDataLastFetch", new Date().toISOString());
     } catch (error) {
