@@ -21,9 +21,9 @@ const PurgeCache: FC<PurgeCacheProps> = ({
 
   const handlePurgeCache = (): void => {
     purgeLocalCache();
-    fetchData(setData, setIsLoading, setLastUpdated);
     alert("Local cache purged. Fetching new data...");
-    setLastUpdated(new Date());
+    fetchData(setData, setIsLoading, setLastUpdated);
+    setTimeSinceLastUpdate("now");
   };
 
   const handleShowDropdown = (): void => {
@@ -33,7 +33,11 @@ const PurgeCache: FC<PurgeCacheProps> = ({
       const diffInMinutes = Math.floor(
         (now.getTime() - lastUpdated.getTime()) / 60000
       );
-      setTimeSinceLastUpdate(`${diffInMinutes}`);
+      if (diffInMinutes < 1) {
+        setTimeSinceLastUpdate("now");
+      } else {
+        setTimeSinceLastUpdate(`${diffInMinutes} min ago`);
+      }
     }
   };
 
@@ -81,9 +85,7 @@ const PurgeCache: FC<PurgeCacheProps> = ({
 
       {showDropdown && (
         <div className="absolute bg-white shadow-xl z-10 p-4 rounded mt-2 w-48 left-0 cursor-default">
-          <p className="text-sm mb-1">
-            Last updated: {timeSinceLastUpdate} min ago
-          </p>
+          <p className="text-sm mb-1">Last updated: {timeSinceLastUpdate}</p>
           <button
             onClick={handlePurgeCache}
             className="bg-red-500 text-white text-sm p-2 rounded border-none cursor-pointer hover:opacity-80"
