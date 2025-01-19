@@ -49,7 +49,10 @@ export async function POST(request: Request) {
   }
 
   try {
-  await redisClient.pushToEnd(cacheKey, JSON.stringify(bodyToStrArr));
+    if 
+      (await redisClient.exists(cacheKey)) {
+      await redisClient.pushToEnd(cacheKey, JSON.stringify(bodyToStrArr));
+      }
   } catch (error) { 
     console.error(error);
   }

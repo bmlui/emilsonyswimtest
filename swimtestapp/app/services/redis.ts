@@ -111,6 +111,18 @@ class RedisClient {
         }
     }
 
+    public static async exists(key: string): Promise<boolean> {
+        const redis = RedisClient.getInstance();
+        if (!redis) return false;
+        try {
+            const result = await redis.exists(key);
+            return result === 1;
+        } catch (error) {
+            console.error(`Error checking existence of key ${key}:`, error);
+            return false;
+        }
+    }
+
     public static async close(): Promise<void> {
         if (RedisClient.instance) {
             try {
