@@ -3,17 +3,17 @@ import Redis from 'ioredis';
 class RedisClient {
     private static instance: Redis | null = null;
     private static EXPIRY_TIME = 120 * 60; // 120 minutes in seconds
+    private static TIMEOUT = 5000; // 5 seconds timeout
 
     private constructor() {}
 
-
     public static getInstance(): Redis | null {
-    
-
         if (!RedisClient.instance) {
             if (process.env.REDIS_URL) {
                 try {
-                    RedisClient.instance = new Redis(process.env.REDIS_URL);
+                    RedisClient.instance = new Redis(process.env.REDIS_URL, {
+                        connectTimeout: RedisClient.TIMEOUT,
+                    });
                 } catch (error) {
                     console.error('Error connecting to Redis:', error);
                     return null;
@@ -33,13 +33,19 @@ class RedisClient {
         return RedisClient.instance;
     }
 
-    
+    private static withTimeout<T>(promise: Promise<T>, timeout: number): Promise<T> {
+        const timeoutPromise = new Promise<T>((_, reject) =>
+            setTimeout(() => reject(new Error('Redis command timed out')), timeout)
+        );
+        return Promise.race([promise, timeoutPromise]);
+    }
+
 
     public static async get(key: string): Promise<string | null> {
         const redis = RedisClient.getInstance();
         if (!redis) return null;
         try {
-            return await redis.get(key);
+            return await RedisClient.withTimeout(redis.get(key), RedisClient.TIMEOUT);
         } catch (error) {
             console.error(`Error getting key ${key}:`, error);
             return null;
@@ -50,7 +56,7 @@ class RedisClient {
         const redis = RedisClient.getInstance();
         if (!redis) return;
         try {
-            await redis.set(key, value, 'EX', RedisClient.EXPIRY_TIME);
+            await RedisClient.withTimeout(redis.set(key, value), RedisClient.TIMEOUT);
         } catch (error) {
             console.error(`Error setting key ${key} with value ${value}:`, error);
         }
@@ -60,7 +66,7 @@ class RedisClient {
         const redis = RedisClient.getInstance();
         if (!redis) return null;
         try {
-            return await redis.lrange(listKey, 0, -1);
+            return await RedisClient.withTimeout(redis.lrange(listKey, 0, -1), RedisClient.TIMEOUT);
         } catch (error) {
             console.error(`Error getting list ${listKey}:`, error);
             return null;
@@ -71,9 +77,9 @@ class RedisClient {
         const redis = RedisClient.getInstance();
         if (!redis) return;
         try {
-            await redis.del(listKey); // Clear existing list
-            await redis.rpush(listKey, ...values); // Push new values
-            await redis.expire(listKey, RedisClient.EXPIRY_TIME); // Set expiry time
+            await RedisClient.withTimeout(redis.del(listKey), RedisClient.TIMEOUT); // Delete existing list
+            await RedisClient.withTimeout(redis.rpush(listKey, ...values), RedisClient.TIMEOUT); // Set new list
+            await RedisClient.withTimeout(redis.expire(listKey, RedisClient.EXPIRY_TIME), RedisClient.TIMEOUT); // Set expiry time
         } catch (error) {
             console.error(`Error setting list ${listKey} with values ${values}:`, error);
         }
@@ -83,8 +89,8 @@ class RedisClient {
         const redis = RedisClient.getInstance();
         if (!redis) return;
         try {
-            await redis.rpush(listKey, value);
-            await redis.expire(listKey, RedisClient.EXPIRY_TIME);
+            await RedisClient.withTimeout(redis.rpush(listKey, value), RedisClient.TIMEOUT);
+            await RedisClient.withTimeout(redis.expire(listKey, RedisClient.EXPIRY_TIME), RedisClient.TIMEOUT);
         } catch (error) {
             console.error(`Error pushing value ${value} to list ${listKey}:`, error);
         }
@@ -94,9 +100,10 @@ class RedisClient {
         const redis = RedisClient.getInstance();
         if (!redis) return;
         try {
-            await redis.del(key);
+            await RedisClient.withTimeout(redis.del(key), RedisClient.TIMEOUT);
         } catch (error) {
             console.error(`Error deleting key ${key}:`, error);
+            throw error;
         }
     }
 
@@ -115,7 +122,7 @@ class RedisClient {
         const redis = RedisClient.getInstance();
         if (!redis) return false;
         try {
-            const result = await redis.exists(key);
+            const result = await RedisClient.withTimeout(redis.exists(key), RedisClient.TIMEOUT);
             return result === 1;
         } catch (error) {
             console.error(`Error checking existence of key ${key}:`, error);
