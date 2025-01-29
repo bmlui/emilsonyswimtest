@@ -171,7 +171,7 @@ export default function SwimTestList({ data }: { data: SwimTestData[] }) {
           )}
         </tbody>
       </table>
-      {paginatedData.length > 0 && (
+      {paginatedData.length > 0 && sortedData.length > itemsPerPage && (
         <div className="flex justify-between items-center mt-4">
           <button
             className={`px-4 py-2 bg-gray-200 text-gray-700 rounded  ${
