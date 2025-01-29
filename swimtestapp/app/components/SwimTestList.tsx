@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SwimTestData } from "../page";
 
 export default function SwimTestList({ data }: { data: SwimTestData[] }) {
@@ -7,6 +7,12 @@ export default function SwimTestList({ data }: { data: SwimTestData[] }) {
     direction: "ascending" | "descending";
   }>({ key: "lastName", direction: "ascending" });
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 180;
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [data]);
   const sortedData = [...data];
   if (sortConfig !== null) {
     sortedData.sort((a, b) => {
@@ -29,6 +35,7 @@ export default function SwimTestList({ data }: { data: SwimTestData[] }) {
       if (aValue > bValue) {
         return sortConfig.direction === "ascending" ? 1 : -1;
       }
+
       return 0;
     });
   }
@@ -43,6 +50,7 @@ export default function SwimTestList({ data }: { data: SwimTestData[] }) {
       direction = "descending";
     }
     setSortConfig({ key, direction });
+    setCurrentPage(1); // Reset to the first page on sort
   };
 
   const getColorClass = (bandColor: string) => {
@@ -71,85 +79,140 @@ export default function SwimTestList({ data }: { data: SwimTestData[] }) {
     return "";
   };
 
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+  };
+
+  const paginatedData = sortedData.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  const totalPages = Math.ceil(sortedData.length / itemsPerPage);
+
   return (
-    <table className="min-w-full divide-y divide-gray-200">
-      <thead className="bg-white sticky top-0 font-bold">
-        <tr>
-          <th
-            className="px-3 py-3 text-left text-xs  text-gray-500 uppercase tracking-wider cursor-pointer"
-            onClick={() => requestSort("firstName")}
-          >
-            First Name {getSortIndicator("firstName")}
-          </th>
-          <th
-            className="px-3 py-3 text-left text-xs  text-gray-500 uppercase tracking-wider cursor-pointer"
-            onClick={() => requestSort("lastName")}
-          >
-            Last Name {getSortIndicator("lastName")}
-          </th>
-          <th
-            className="px-3 py-3 text-left text-xs  text-gray-500 uppercase tracking-wider cursor-pointer"
-            onClick={() => requestSort("bandColor")}
-          >
-            Color {getSortIndicator("bandColor")}
-          </th>
-          <th
-            className="px-3 py-3 text-left text-xs  text-gray-500 uppercase tracking-wider cursor-pointer"
-            onClick={() => requestSort("tester")}
-          >
-            Tester {getSortIndicator("tester")}
-          </th>
-          <th
-            className="px-3 py-3 text-left text-xs  text-gray-500 uppercase tracking-wider cursor-pointer"
-            onClick={() => requestSort("testDate")}
-          >
-            Test Date {getSortIndicator("testDate")}
-          </th>
-        </tr>
-      </thead>
-      <tbody className="bg-white divide-y divide-gray-200 text-s">
-        {sortedData.length > 0 ? (
-          sortedData.map((item, index) => (
-            <tr key={index} className={index % 2 === 0 ? "bg-gray-50" : ""}>
-              <td className="px-3 py-1 ">{item.firstName}</td>
-              <td className="px-3 py-1 ">{item.lastName}</td>
-              <td
-                className={`px-3 py-1 whitespace-nowrap ${getColorClass(
-                  item.bandColor
-                )}`}
-              >
-                {item.bandColor.toLowerCase() === "g"
-                  ? "Green"
-                  : item.bandColor.toLowerCase() === "y"
-                  ? "Yellow"
-                  : item.bandColor.toLowerCase() === "r"
-                  ? "Red"
-                  : item.bandColor}
-              </td>
-              <td className="px-3 py-1 ">{item.tester}</td>
-              <td className="px-3 py-1 whitespace-nowrap">
-                {(() => {
-                  try {
-                    return item.testDate.toLocaleDateString("en-GB", {
-                      day: "2-digit",
-                      month: "short",
-                      year: "numeric",
-                    });
-                  } catch {
-                    return "Invalid Date";
-                  }
-                })()}
+    <div>
+      <table className="min-w-full divide-y divide-gray-200">
+        <thead className="bg-white sticky top-0 font-bold">
+          <tr>
+            <th
+              className="px-3 py-3 text-left text-xs  text-gray-500 uppercase tracking-wider cursor-pointer"
+              onClick={() => requestSort("firstName")}
+            >
+              First Name {getSortIndicator("firstName")}
+            </th>
+            <th
+              className="px-3 py-3 text-left text-xs  text-gray-500 uppercase tracking-wider cursor-pointer"
+              onClick={() => requestSort("lastName")}
+            >
+              Last Name {getSortIndicator("lastName")}
+            </th>
+            <th
+              className="px-3 py-3 text-left text-xs  text-gray-500 uppercase tracking-wider cursor-pointer"
+              onClick={() => requestSort("bandColor")}
+            >
+              Color {getSortIndicator("bandColor")}
+            </th>
+            <th
+              className="px-3 py-3 text-left text-xs  text-gray-500 uppercase tracking-wider cursor-pointer"
+              onClick={() => requestSort("tester")}
+            >
+              Tester {getSortIndicator("tester")}
+            </th>
+            <th
+              className="px-3 py-3 text-left text-xs  text-gray-500 uppercase tracking-wider cursor-pointer"
+              onClick={() => requestSort("testDate")}
+            >
+              Test Date {getSortIndicator("testDate")}
+            </th>
+          </tr>
+        </thead>
+        <tbody className="bg-white divide-y divide-gray-200 text-s">
+          {paginatedData.length > 0 ? (
+            paginatedData.map((item, index) => (
+              <tr key={index} className={index % 2 === 0 ? "bg-gray-50" : ""}>
+                <td className="px-3 py-1 ">{item.firstName}</td>
+                <td className="px-3 py-1 ">{item.lastName}</td>
+                <td
+                  className={`px-3 py-1 whitespace-nowrap ${getColorClass(
+                    item.bandColor
+                  )}`}
+                >
+                  {item.bandColor.toLowerCase() === "g"
+                    ? "Green"
+                    : item.bandColor.toLowerCase() === "y"
+                    ? "Yellow"
+                    : item.bandColor.toLowerCase() === "r"
+                    ? "Red"
+                    : item.bandColor}
+                </td>
+                <td className="px-3 py-1 ">{item.tester}</td>
+                <td className="px-3 py-1 whitespace-nowrap">
+                  {(() => {
+                    try {
+                      return item.testDate.toLocaleDateString("en-GB", {
+                        day: "2-digit",
+                        month: "short",
+                        year: "numeric",
+                      });
+                    } catch {
+                      return "Invalid Date";
+                    }
+                  })()}
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan={5} className="px-3 py-8 text-center">
+                No results found
               </td>
             </tr>
-          ))
-        ) : (
-          <tr>
-            <td colSpan={5} className="px-3 py-8 text-center">
-              No results found
-            </td>
-          </tr>
-        )}
-      </tbody>
-    </table>
+          )}
+        </tbody>
+      </table>
+      {paginatedData.length > 0 && sortedData.length > itemsPerPage && (
+        <div className="flex justify-between items-center mt-4">
+          <button
+            className={`px-4 py-2 bg-gray-200 text-gray-700 rounded  ${
+              currentPage === 1 ? "cursor-not-allowed" : "hover:opacity-80"
+            }`}
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+          >
+            Previous
+          </button>
+          <span>
+            Page{" "}
+            <input
+              type="number"
+              min="1"
+              max={totalPages}
+              value={currentPage}
+              onChange={(e) => {
+                const page = Number(e.target.value);
+                if (page >= 1 && page <= totalPages) {
+                  handlePageChange(page);
+                }
+              }}
+              className=" p-1 border rounded"
+            />{" "}
+            of {totalPages}
+          </span>
+
+          <button
+            className={`px-4 py-2 bg-gray-200 text-gray-700 rounded  ${
+              currentPage === totalPages
+                ? "cursor-not-allowed"
+                : "hover:opacity-80"
+            }`}
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+          >
+            Next
+          </button>
+        </div>
+      )}
+    </div>
   );
 }
