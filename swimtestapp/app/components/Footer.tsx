@@ -2,7 +2,7 @@ function Footer() {
   return (
     <>
       <footer className="text-center text-gray-500 mb-5 ml-5 mr-5">
-        A Culture of Safety. A Commitment to Care. A Standard of Excellence.
+        Creating a Safer Tomorrow, Today. One Goal: Zero Drownings.
         <br />
         Data is synced with the Google Sheet on the supervisor account.
         <br />

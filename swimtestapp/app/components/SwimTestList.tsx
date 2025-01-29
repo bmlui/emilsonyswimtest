@@ -175,12 +175,14 @@ export default function SwimTestList({ data }: { data: SwimTestData[] }) {
         <div className="flex justify-between items-center mt-4">
           <button
             className={`px-4 py-2 bg-gray-200 text-gray-700 rounded  ${
-              currentPage === 1 ? "cursor-not-allowed" : "hover:opacity-80"
+              currentPage === 1
+                ? "cursor-default opacity-0"
+                : "hover:opacity-80"
             }`}
             onClick={() => handlePageChange(currentPage - 1)}
             disabled={currentPage === 1}
           >
-            Previous
+            {"<"} Previous
           </button>
           <span>
             Page{" "}
@@ -203,13 +205,13 @@ export default function SwimTestList({ data }: { data: SwimTestData[] }) {
           <button
             className={`px-4 py-2 bg-gray-200 text-gray-700 rounded  ${
               currentPage === totalPages
-                ? "cursor-not-allowed"
+                ? "cursor-default opacity-0"
                 : "hover:opacity-80"
             }`}
             onClick={() => handlePageChange(currentPage + 1)}
             disabled={currentPage === totalPages}
           >
-            Next
+            Next {">"}
           </button>
         </div>
       )}
