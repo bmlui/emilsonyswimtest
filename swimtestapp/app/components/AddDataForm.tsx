@@ -175,6 +175,7 @@ export default function AddDataForm({
           id="firstName"
           type="text"
           spellCheck="false"
+          autoCorrect="off"
           autoCapitalize="words"
           autoComplete="off"
           value={firstName}
@@ -192,6 +193,7 @@ export default function AddDataForm({
           id="lastName"
           type="text"
           spellCheck="false"
+          autoCorrect="off"
           autoCapitalize="words"
           autoComplete="off"
           value={lastName}
@@ -245,6 +247,7 @@ export default function AddDataForm({
           id="tester"
           type="text"
           spellCheck="false"
+          autoCorrect="off"
           autoCapitalize="words"
           value={tester}
           onChange={(e) => setTester(e.target.value)}
