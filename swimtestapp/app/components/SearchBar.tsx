@@ -43,6 +43,8 @@ export default function SearchBar({
           type="search"
           spellCheck="false"
           autoComplete="off"
+          autoCorrect="off"
+          autoCapitalize="off"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onKeyDown={handleKeyPress}
