@@ -174,6 +174,10 @@ export default function AddDataForm({
         <input
           id="firstName"
           type="text"
+          spellCheck="false"
+          autoCorrect="off"
+          autoCapitalize="words"
+          autoComplete="off"
           value={firstName}
           onChange={(e) => setFirstName(e.target.value)}
           placeholder="Sam"
@@ -188,6 +192,10 @@ export default function AddDataForm({
         <input
           id="lastName"
           type="text"
+          spellCheck="false"
+          autoCorrect="off"
+          autoCapitalize="words"
+          autoComplete="off"
           value={lastName}
           onChange={(e) => setLastName(e.target.value)}
           placeholder="Safetly"
@@ -238,6 +246,9 @@ export default function AddDataForm({
         <input
           id="tester"
           type="text"
+          spellCheck="false"
+          autoCorrect="off"
+          autoCapitalize="words"
           value={tester}
           onChange={(e) => setTester(e.target.value)}
           placeholder="Commodore Longfellow"
