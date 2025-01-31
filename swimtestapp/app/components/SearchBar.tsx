@@ -41,6 +41,7 @@ export default function SearchBar({
       <div className="flex space-x-2">
         <input
           type="search"
+          spellCheck="false"
           autoComplete="off"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
