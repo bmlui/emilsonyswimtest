@@ -31,12 +31,13 @@ export default function SearchBar({
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
+      e.preventDefault();
       handleAction();
     }
   };
 
   return (
-    <div>
+    <form onSubmit={(e) => e.preventDefault()} autoComplete="off">
       <div className="flex space-x-2">
         <input
           type="search"
@@ -45,7 +46,7 @@ export default function SearchBar({
           onChange={(e) => setQuery(e.target.value)}
           onKeyDown={handleKeyPress}
           placeholder="Search..."
-          className="flex-grow p-2 border border-gray-300 rounded"
+          className="flex-grow p-2 border border-gray-300 bg-white rounded"
         />
         <button
           onClick={isSearched ? handleClear : handleAction}
@@ -62,6 +63,6 @@ export default function SearchBar({
           <span className="font-bold"> {searchTerm}</span>
         </div>
       )}
-    </div>
+    </form>
   );
 }
