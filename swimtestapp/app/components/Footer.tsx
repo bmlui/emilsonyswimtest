@@ -9,12 +9,12 @@ function Footer() {
         For support, please email{" "}
         <a
           href="mailto:contact@brandonlui.com"
-          className="text-blue-500 hover:underline"
+          className="text-blue-600 hover:underline"
         >
           contact@brandonlui.com
         </a>{" "}
         or call{" "}
-        <a href="tel:+18024172584" className="text-blue-500 hover:underline ">
+        <a href="tel:+18024172584" className="text-blue-600 hover:underline ">
           +1 (802) 417-BLUI
         </a>{" "}
         (1-802-417-2584).

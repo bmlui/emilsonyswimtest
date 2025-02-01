@@ -182,7 +182,7 @@ export default function AddDataForm({
           onChange={(e) => setFirstName(e.target.value)}
           placeholder="Sam"
           required
-          className="w-full p-2 border border-gray-300 rounded"
+          className="w-full p-2 border border-gray-300 bg-white rounded-sm"
         />
       </div>
       <div>
@@ -200,7 +200,7 @@ export default function AddDataForm({
           onChange={(e) => setLastName(e.target.value)}
           placeholder="Safetly"
           required
-          className="w-full p-2 border border-gray-300 rounded"
+          className="w-full p-2 border border-gray-300  bg-white  rounded-sm"
         />
       </div>
       <div className="relative">
@@ -212,13 +212,13 @@ export default function AddDataForm({
           value={bandColor}
           onChange={(e) => setBandColor(e.target.value)}
           required
-          className={`w-full p-2 border border-gray-300 rounded appearance-none ${
+          className={`w-full p-2 border border-gray-300  rounded appearance-none ${
             bandColor === "g"
-              ? "bg-green-100 text-green-800"
+              ? "bg-emerald-50 text-emerald-700 font-bold"
               : bandColor === "y"
-              ? "bg-yellow-100 text-yellow-800"
+              ? "bg-amber-50 text-amber-700 font-bold"
               : bandColor === "r"
-              ? "bg-red-100 text-red-800"
+              ? "bg-red-50 text-red-700 font-bold"
               : "bg-white"
           }`}
         >
@@ -253,7 +253,7 @@ export default function AddDataForm({
           onChange={(e) => setTester(e.target.value)}
           placeholder="Commodore Longfellow"
           required
-          className="w-full p-2 border border-gray-300 rounded"
+          className="w-full p-2 border border-gray-300 bg-white rounded-sm"
         />
       </div>
       <button
@@ -261,7 +261,7 @@ export default function AddDataForm({
         className={`px-4 py-2 rounded ${
           submitDisabled
             ? "bg-gray-500 text-gray-800 cursor-not-allowed"
-            : "bg-blue-500 text-white hover:opacity-80"
+            : "bg-blue-600 text-white hover:opacity-80"
         }`}
         disabled={submitDisabled}
       >

@@ -60,13 +60,13 @@ export default function SwimTestList({ data }: { data: SwimTestData[] }) {
     switch (bandColor.toLowerCase()) {
       case "green":
       case "g":
-        return "bg-green-100 text-green-800";
+        return "bg-emerald-50 text-emerald-700";
       case "yellow":
       case "y":
-        return "bg-yellow-100 text-yellow-800";
+        return "bg-amber-50 text-amber-700";
       case "red":
       case "r":
-        return "bg-red-100 text-red-800";
+        return "bg-red-50 text-red-700";
       default:
         return "bg-gray-100 text-gray-800";
     }
@@ -93,7 +93,7 @@ export default function SwimTestList({ data }: { data: SwimTestData[] }) {
   return (
     <div>
       <table className="min-w-full divide-y divide-gray-200">
-        <thead className="bg-white sticky top-0 font-bold">
+        <thead className="border-b-3 border-gray-200 bg-white sticky top-0 font-bold">
           <tr>
             <th
               className="px-3 py-3 text-left text-xs  text-gray-500 uppercase tracking-wider cursor-pointer"
@@ -127,27 +127,34 @@ export default function SwimTestList({ data }: { data: SwimTestData[] }) {
             </th>
           </tr>
         </thead>
-        <tbody className="bg-white divide-y divide-gray-200 text-s">
+        <tbody className="bg-white text-s">
           {paginatedData.length > 0 ? (
             paginatedData.map((item, index) => (
-              <tr key={index} className={index % 2 === 0 ? "bg-gray-50" : ""}>
+              <tr
+                key={index}
+                className={`${
+                  index % 2 === 0 ? "bg-gray-50" : ""
+                } border-b border-gray-200`}
+              >
                 <td className="px-3 py-1 ">{item.firstName}</td>
                 <td className="px-3 py-1 ">{item.lastName}</td>
-                <td
-                  className={`px-3 py-1 whitespace-nowrap ${getColorClass(
-                    item.bandColor
-                  )}`}
-                >
-                  {item.bandColor.toLowerCase() === "g"
-                    ? "Green"
-                    : item.bandColor.toLowerCase() === "y"
-                    ? "Yellow"
-                    : item.bandColor.toLowerCase() === "r"
-                    ? "Red"
-                    : item.bandColor}
+                <td className={`px-3 py-1 whitespace-nowrap `}>
+                  <span
+                    className={`px-2 py-1 rounded-lg font-bold  ${getColorClass(
+                      item.bandColor
+                    )}`}
+                  >
+                    {item.bandColor.toLowerCase() === "g"
+                      ? "green"
+                      : item.bandColor.toLowerCase() === "y"
+                      ? "yellow"
+                      : item.bandColor.toLowerCase() === "r"
+                      ? "red"
+                      : item.bandColor}
+                  </span>
                 </td>
                 <td className="px-3 py-1 ">{item.tester}</td>
-                <td className="px-3 py-1 whitespace-nowrap">
+                <td className="px-3 py-1 whitespace-nowrap ">
                   {(() => {
                     try {
                       return item.testDate.toLocaleDateString("en-GB", {
@@ -197,7 +204,7 @@ export default function SwimTestList({ data }: { data: SwimTestData[] }) {
                   handlePageChange(page);
                 }
               }}
-              className=" p-1 border rounded"
+              className=" p-1 border rounded-sm bg-white"
             />{" "}
             of {totalPages}
           </span>

@@ -19,7 +19,7 @@ const LiveIndicator: React.FC<LiveIndicatorProps> = ({ isConnected }) => {
         <div style={{ display: "flex", alignItems: "center" }}>
           <div
             className={`w-2.5 h-2.5 rounded-full mr-2 ${
-              isConnected ? "bg-green-500" : "bg-red-500"
+              isConnected ? "bg-emerald-600" : "bg-red-600"
             }`}
           ></div>
           <span className="mr-2">

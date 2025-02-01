@@ -84,11 +84,11 @@ const PurgeCache: FC<PurgeCacheProps> = ({
       </button>
 
       {showDropdown && (
-        <div className="absolute bg-white shadow-xl z-10 p-4 rounded mt-2 w-48 left-0 cursor-default">
+        <div className="absolute bg-white shadow-xl z-10 p-4 rounded-sm mt-2 w-48 left-0 cursor-default">
           <p className="text-sm mb-1">Last updated: {timeSinceLastUpdate}</p>
           <button
             onClick={handlePurgeCache}
-            className="bg-red-500 text-white text-sm p-2 rounded border-none cursor-pointer hover:opacity-80"
+            className="bg-red-600 text-white text-sm p-2 rounded-sm border-none cursor-pointer hover:opacity-80"
           >
             Force Refresh
           </button>
