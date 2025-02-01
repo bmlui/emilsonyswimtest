@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { SwimTestData } from "../page";
+import SwimTestListRow from "./SwimTestListRow";
 
 export default function SwimTestList({ data }: { data: SwimTestData[] }) {
   const [sortConfig, setSortConfig] = useState<{
@@ -53,25 +54,6 @@ export default function SwimTestList({ data }: { data: SwimTestData[] }) {
     setCurrentPage(1); // Reset to the first page on sort
   };
 
-  const getColorClass = (bandColor: string) => {
-    if (!bandColor) {
-      return "bg-gray-100 text-gray-800";
-    }
-    switch (bandColor.toLowerCase()) {
-      case "green":
-      case "g":
-        return "bg-emerald-50 text-emerald-700";
-      case "yellow":
-      case "y":
-        return "bg-amber-50 text-amber-700";
-      case "red":
-      case "r":
-        return "bg-red-50 text-red-700";
-      default:
-        return "bg-gray-100 text-gray-800";
-    }
-  };
-
   const getSortIndicator = (key: keyof SwimTestData) => {
     if (sortConfig.key === key) {
       return sortConfig.direction === "ascending" ? "▲" : "▼";
@@ -92,9 +74,37 @@ export default function SwimTestList({ data }: { data: SwimTestData[] }) {
 
   return (
     <div>
-      <table className="min-w-full divide-y divide-gray-200">
+      <div className="md:hidden mb-2 text-sm mt-2">
+        <label htmlFor="sortSelector" className="inline mr-2 ">
+          Sort by:
+        </label>
+        <select
+          id="sortSelector"
+          name="sortSelector"
+          className=" inline "
+          value={sortConfig.key}
+          onChange={(e) => requestSort(e.target.value as keyof SwimTestData)}
+        >
+          <option value="firstName">First Name</option>
+          <option value="lastName">Last Name</option>
+          <option value="bandColor">Color</option>
+          <option value="tester">Tester</option>
+          <option value="testDate">Test Date</option>
+        </select>
+        <select
+          id="directionSelector"
+          name="directionSelector"
+          className="inline  ml-2"
+          value={sortConfig.direction}
+          onChange={() => requestSort(sortConfig.key as keyof SwimTestData)}
+        >
+          <option value="ascending">Ascending</option>
+          <option value="descending">Descending</option>
+        </select>
+      </div>
+      <table className="min-w-full divide-y divide-gray-200 md:mt-4">
         <thead className="border-b-3 border-gray-200 bg-white sticky top-0 font-bold">
-          <tr>
+          <tr className="hidden md:table-row">
             <th
               className="px-3 py-3 text-left text-xs  text-gray-500 uppercase tracking-wider cursor-pointer"
               onClick={() => requestSort("firstName")}
@@ -127,47 +137,10 @@ export default function SwimTestList({ data }: { data: SwimTestData[] }) {
             </th>
           </tr>
         </thead>
-        <tbody className="bg-white text-s">
+        <tbody className=" text-s">
           {paginatedData.length > 0 ? (
             paginatedData.map((item, index) => (
-              <tr
-                key={index}
-                className={`${
-                  index % 2 === 0 ? "bg-gray-50" : ""
-                } border-b border-gray-200`}
-              >
-                <td className="px-3 py-1 ">{item.firstName}</td>
-                <td className="px-3 py-1 ">{item.lastName}</td>
-                <td className={`px-3 py-1 whitespace-nowrap `}>
-                  <span
-                    className={`px-2 py-1 rounded-lg font-bold  ${getColorClass(
-                      item.bandColor
-                    )}`}
-                  >
-                    {item.bandColor.toLowerCase() === "g"
-                      ? "green"
-                      : item.bandColor.toLowerCase() === "y"
-                      ? "yellow"
-                      : item.bandColor.toLowerCase() === "r"
-                      ? "red"
-                      : item.bandColor}
-                  </span>
-                </td>
-                <td className="px-3 py-1 ">{item.tester}</td>
-                <td className="px-3 py-1 whitespace-nowrap ">
-                  {(() => {
-                    try {
-                      return item.testDate.toLocaleDateString("en-GB", {
-                        day: "2-digit",
-                        month: "short",
-                        year: "numeric",
-                      });
-                    } catch {
-                      return "Invalid Date";
-                    }
-                  })()}
-                </td>
-              </tr>
+              <SwimTestListRow key={index} item={item} index={index} />
             ))
           ) : (
             <tr>

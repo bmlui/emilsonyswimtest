@@ -37,7 +37,11 @@ export default function SearchBar({
   };
 
   return (
-    <form onSubmit={(e) => e.preventDefault()} autoComplete="off">
+    <form
+      onSubmit={(e) => e.preventDefault()}
+      autoComplete="off"
+      className="m-0"
+    >
       <div className="flex space-x-2">
         <input
           type="search"
@@ -61,9 +65,9 @@ export default function SearchBar({
         </button>
       </div>
       {isSearched && (
-        <div className="mt-2 ">
+        <div className="text-sm mt-2">
           Current Search:
-          <span className="font-bold"> {searchTerm}</span>
+          <span className="font-bold "> {searchTerm}</span>
         </div>
       )}
     </form>
