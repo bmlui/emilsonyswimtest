@@ -81,7 +81,7 @@ export default function SwimTestList({ data }: { data: SwimTestData[] }) {
         <select
           id="sortSelector"
           name="sortSelector"
-          className=" inline "
+          className="inline border p-1 border-gray-300 rounded bg-white appearance-none "
           value={sortConfig.key}
           onChange={(e) => requestSort(e.target.value as keyof SwimTestData)}
         >
@@ -91,10 +91,11 @@ export default function SwimTestList({ data }: { data: SwimTestData[] }) {
           <option value="tester">Tester</option>
           <option value="testDate">Test Date</option>
         </select>
+
         <select
           id="directionSelector"
           name="directionSelector"
-          className="inline  ml-2"
+          className="inline  ml-2 border p-1 border-gray-300  rounded  bg-white appearance-none "
           value={sortConfig.direction}
           onChange={() => requestSort(sortConfig.key as keyof SwimTestData)}
         >
