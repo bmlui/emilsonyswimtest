@@ -49,12 +49,12 @@ export default function SearchBar({
           onChange={(e) => setQuery(e.target.value)}
           onKeyDown={handleKeyPress}
           placeholder="Search..."
-          className="flex-grow p-2 border border-gray-300 bg-white rounded"
+          className="grow p-2 border border-gray-300 bg-white rounded-sm"
         />
         <button
           onClick={isSearched ? handleClear : handleAction}
           className={`px-4 py-2 rounded hover:opacity-80 ${
-            isSearched ? "bg-gray-500" : "bg-blue-500"
+            isSearched ? "bg-gray-500" : "bg-blue-600"
           } text-white`}
         >
           {isSearched ? "Clear" : "Search"}
