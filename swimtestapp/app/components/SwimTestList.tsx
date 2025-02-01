@@ -96,7 +96,7 @@ export default function SwimTestList({ data }: { data: SwimTestData[] }) {
           name="directionSelector"
           className="inline  ml-2"
           value={sortConfig.direction}
-          onChange={(e) => requestSort(sortConfig.key as keyof SwimTestData)}
+          onChange={() => requestSort(sortConfig.key as keyof SwimTestData)}
         >
           <option value="ascending">Ascending</option>
           <option value="descending">Descending</option>
