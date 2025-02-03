@@ -79,7 +79,7 @@ export default function Home() {
           </div>
           <SearchBar setSearchTerm={setSearchTerm} searchTerm={searchTerm} />
           {isLoading ? (
-            <div className="flex justify-center items-center">
+            <div className="flex justify-center items-center m-5">
               <div className="animate-spin rounded-full h-8 w-8 border-4 border-gray-300 border-t-transparent"></div>
             </div>
           ) : (
