@@ -25,6 +25,7 @@ export async function GET() {
   // Store the fetched data in Redis cache
   if (sheetData) {
     await redisClient.setList(cacheKey, sheetData.map((row: string[]) => JSON.stringify(row)));
+    await redisClient.set("last_active", new Date().toLocaleString());
   }
 
   return NextResponse.json(sheetData);
