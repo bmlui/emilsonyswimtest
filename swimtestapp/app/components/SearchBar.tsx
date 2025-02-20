@@ -41,10 +41,12 @@ export default function SearchBar({
       onSubmit={(e) => e.preventDefault()}
       autoComplete="off"
       className="m-0"
+      action="."
     >
       <div className="flex space-x-2">
         <input
           type="search"
+          enterKeyHint="search"
           spellCheck="false"
           autoComplete="off"
           autoCorrect="off"
