@@ -75,9 +75,7 @@ export default function AddDataForm({
             ) {
               return subPart;
             }
-            return (
-              subPart.charAt(0).toUpperCase() + subPart.slice(1).toLowerCase()
-            );
+            return subPart.charAt(0).toUpperCase() + subPart.slice(1);
           })
           .join(part.includes("-") ? "-" : "'");
       })
