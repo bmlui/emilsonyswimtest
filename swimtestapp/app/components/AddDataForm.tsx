@@ -148,6 +148,7 @@ export default function AddDataForm({
         setSubmitDisabled(false);
         setFirstName("");
         setLastName("");
+        setTester("");
       } else {
         console.error(response);
         alert(
